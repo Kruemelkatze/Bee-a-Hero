@@ -58,3 +58,10 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Rider
+*.iws
+*/.idea/workspace.xml
+/.idea/.idea.BachelorThesisGameKauaiKayote/.idea/workspace.xml
+/.idea/.idea.BachelorThesisGameKauaiKayote/.idea/contentModel.xml
+tasks.xml
+.idea
