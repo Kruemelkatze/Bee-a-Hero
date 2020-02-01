@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Xml.Linq;
 using FTG.AudioController;
 using UnityEditor;
 using UnityEngine;
@@ -65,27 +66,12 @@ public class TileController : MonoBehaviour
 
         selectedHoneycomb = null;
         
-        // Play Start and Finish Tiles
-        var startGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, -4, 0)), Quaternion.identity, honeycombContainer);
-        startGO.name = "Start";
-        startHoneycomb = startGO.GetComponent<Honeycomb>();
-        startHoneycomb.SetStartWalls();
-        startHoneycomb.SetDoors();
-        startHoneycomb.UpdateWalls();
-        
-        GameController.Instance.StartTilePlaced(startHoneycomb);
-        
-        var finishGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, 4, 0)), Quaternion.identity, honeycombContainer);
-        finishGO.name = "End";
-        finishHoneycomb = finishGO.GetComponent<Honeycomb>();
-        finishHoneycomb.SetFinishWalls();
-        finishHoneycomb.SetDoors();
-        finishHoneycomb.UpdateWalls();
+        Setup();
     }
-
+    
     private void OnGUI()
     {
-        //PrintTiles();
+//        PrintTiles();
     }
 
     // Update is called once per frame
@@ -174,6 +160,27 @@ public class TileController : MonoBehaviour
     /* ======================================================================================================================== */
     /* PRIVATE FUNCTIONS                                                                                                        */
     /* ======================================================================================================================== */
+    
+    // Play Start and Finish Tiles
+    private void Setup()
+    {
+        var startGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, -4, 0)), Quaternion.identity, honeycombContainer);
+        startGO.name = "Start";
+        startHoneycomb = startGO.GetComponent<Honeycomb>();
+        startHoneycomb.SetStartWalls();
+        startHoneycomb.SetDoors();
+        startHoneycomb.UpdateWalls();
+        
+        GameController.Instance.StartTilePlaced(startHoneycomb);
+        
+        var finishGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, 4, 0)), Quaternion.identity, honeycombContainer);
+        finishGO.name = "End";
+        finishHoneycomb = finishGO.GetComponent<Honeycomb>();
+        finishHoneycomb.SetFinishWalls();
+        finishHoneycomb.SetDoors();
+        finishHoneycomb.UpdateWalls();
+    }
+    
     private void PrintTiles()
     {
         foreach (var pos in backgroundTileMap.cellBounds.allPositionsWithin)
@@ -193,11 +200,15 @@ public class TileController : MonoBehaviour
     /* PUBLIC FUNCTIONS                                                                                                         */
     /* ======================================================================================================================== */
 
+    public void SetGrid(Grid newGrid)
+    {
+        grid = newGrid;
+    }
+    
     public Honeycomb GetFinishHoneycomb()
     {
         return finishHoneycomb;
     }
-    
     
     /* ======================================================================================================================== */
     /* EVENT CALLERS                                                                                                            */
