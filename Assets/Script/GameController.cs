@@ -14,7 +14,9 @@ public class GameController : MonoBehaviour
     
     [SerializeField] private GameObject pauseOverlay;
     [SerializeField] private GameObject gameOverOverlay;
-    
+    [SerializeField] private Grid gridPrefab;
+    [SerializeField] private Transform gridContainer;
+        
     [SerializeField] private Dialogue[] dialogues;
     
     public bool IsPaused { get; private set; }
@@ -112,6 +114,13 @@ public class GameController : MonoBehaviour
             AudioController.Instance.PlaySound("GameOverSound");
             AudioController.Instance.StopAllMusic();
         }
+    }
+
+    public void LevelFinished()
+    {
+        AudioController.Instance.PlaySound("WinSound");
+//        Grid grid = Instantiate(gridPrefab, Vector3.up * 10u, Quaternion.identity, gridContainer);
+        
     }
 
     public void ActivateMilf()

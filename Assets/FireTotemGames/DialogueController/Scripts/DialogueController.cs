@@ -120,6 +120,8 @@ public class DialogueController : MonoBehaviour
 
     public void DisplayNextSentence(bool isFirstSentence = false)
     {
+        AudioController.Instance.StopSound("DialogueSound");
+        
         if (sentences.Count == 0)
         {
             StopAllCoroutines();
