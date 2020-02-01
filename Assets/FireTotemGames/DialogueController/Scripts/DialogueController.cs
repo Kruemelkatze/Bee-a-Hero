@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class DialogueController : MonoBehaviour
 {
@@ -9,13 +10,14 @@ public class DialogueController : MonoBehaviour
     /* VARIABLE DECLARATIONS                                                                                                    */
     /* ======================================================================================================================== */
 
+    [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private Animator animator;
     [SerializeField] private float startDelay;
     [SerializeField] private float timeBetweenLetters;
 
-    public static DialogueController instance;
+    public static DialogueController Instance;
 
     private Queue<string> sentences;
 
@@ -25,15 +27,13 @@ public class DialogueController : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
-            DontDestroyOnLoad(this);
+            Instance = this;
         }
         else
         {
             Destroy(gameObject);
-            return;
         }
     }
 
@@ -53,23 +53,32 @@ public class DialogueController : MonoBehaviour
 
     private void EndDialogue()
     {
-        animator.SetBool("IsOpen", false);
+        Dialogue nextDialogue = GameController.Instance.GetNextDialogue();
+        if (nextDialogue != null)
+        {
+            StartDialogue(nextDialogue);   
+        }
+        else
+        {
+            animator.SetBool("IsOpen", false);
+        }
     }
 
-    private IEnumerator TypeSentence(string sentence, bool isFirstSentence = false)
+    private IEnumerator TypeSentence(string sentence)
     {
         dialogueText.text = "";
-
-        if (isFirstSentence == true)
-        {
-            yield return new WaitForSeconds(startDelay);
-        }
-
+        
         foreach (char item in sentence.ToCharArray())
         {
             dialogueText.text += item;
             yield return new WaitForSeconds(timeBetweenLetters);
         }
+    }
+
+    private IEnumerator StartDialogueCoroutine()
+    {
+        yield return new WaitForSeconds(startDelay);
+        DisplayNextSentence();
     }
 
     /* ======================================================================================================================== */
@@ -80,6 +89,7 @@ public class DialogueController : MonoBehaviour
     {
         animator.SetBool("IsOpen", true);
 
+        image.sprite = dialogue.image;
         nameText.text = dialogue.name;
 
         if (sentences == null)
@@ -93,7 +103,8 @@ public class DialogueController : MonoBehaviour
             sentences.Enqueue(item);
         }
 
-        DisplayNextSentence(true);
+        dialogueText.text = "";
+        StartCoroutine(StartDialogueCoroutine());
     }
 
     public void DisplayNextSentence(bool isFirstSentence = false)
@@ -106,7 +117,7 @@ public class DialogueController : MonoBehaviour
 
         string sentence = sentences.Dequeue();
         StopAllCoroutines();
-        StartCoroutine(TypeSentence(sentence, isFirstSentence));
+        StartCoroutine(TypeSentence(sentence));
     }
 
     /* ======================================================================================================================== */

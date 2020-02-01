@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "New Dialogue", menuName = "FTG/Dialogue")]
 public class Dialogue : ScriptableObject
@@ -9,6 +10,7 @@ public class Dialogue : ScriptableObject
     /* VARIABLE DECLARATIONS                                                                                                    */
     /* ======================================================================================================================== */
 
+    public Sprite image;
     new public string name;
 
     [TextArea(3, 10)]
