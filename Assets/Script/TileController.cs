@@ -25,10 +25,11 @@ public class TileController : MonoBehaviour
     [SerializeField] private Tilemap playAreaTileMap;
     [SerializeField] private Tilemap tileSelectionTileMap;
     [SerializeField] private GameObject honeycombPrefab;
+    [SerializeField] private GameObject corruptedPrefab;
     [SerializeField] private Transform honeycombContainer;
     [SerializeField] private Transform availableHoneycombContainer;
     [SerializeField] private Transform level;
-
+    
     [SerializeField] private int creationCounter = 0;
     
     private Honeycomb selectedHoneycomb;
@@ -74,7 +75,7 @@ public class TileController : MonoBehaviour
     
     private void OnGUI()
     {
-//        PrintTiles();
+        PrintTiles();
     }
 
     // Update is called once per frame
@@ -204,6 +205,21 @@ public class TileController : MonoBehaviour
 #endif
             }
         }
+    }
+
+    private List<Vector3Int> GetFreeTilePositions()
+    {
+        var free = new List<Vector3Int>();
+        foreach (var pos in backgroundTileMap.cellBounds.allPositionsWithin)
+        {   
+            Vector3Int localPlace = new Vector3Int(pos.x, pos.y, pos.z);
+            if (backgroundTileMap.HasTile(localPlace) && !playAreaTileMap.HasTile(localPlace) )
+            {
+                free.Add(localPlace);
+            }
+        }
+
+        return free;
     }
 
     private int GetWeightedRandomEntry(float[] percentages)
@@ -344,6 +360,11 @@ public class TileController : MonoBehaviour
         }
 
         return def;
+    }
+
+    public Honeycomb SpawnCorrupted()
+    {
+        return null;
     }
     
     /* ======================================================================================================================== */
