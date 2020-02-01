@@ -58,6 +58,11 @@ public class TileController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameController.Instance.IsPaused == true)
+        {
+            return;
+        }
+        
         if (Input.GetMouseButtonDown(0) == true)
         {
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
