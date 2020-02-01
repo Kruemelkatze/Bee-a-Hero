@@ -196,6 +196,23 @@ public class TileController : MonoBehaviour
             }
         }
     }
+
+    private List<TileBase> GetAllTiles(Tilemap tilemap)
+    {
+        var tiles = new List<TileBase>();
+        foreach (var pos in tilemap.cellBounds.allPositionsWithin)
+        {   
+            Vector3Int localPlace = new Vector3Int(pos.x, pos.y, pos.z);
+            //Vector3 place = backgroundTileMap.CellToWorld(localPlace);
+            var tile = tilemap.GetTile(localPlace);
+            if (tile != null)
+            {
+                tiles.Add(tile);
+            }
+        }
+
+        return tiles;
+    }
     
     /* ======================================================================================================================== */
     /* PUBLIC FUNCTIONS                                                                                                         */
@@ -210,7 +227,13 @@ public class TileController : MonoBehaviour
     {
         return finishHoneycomb;
     }
-    
+
+    public bool IsSpaceLeft()
+    {
+        var tileCount = GetAllTiles(backgroundTileMap).Count;
+        return honeycombContainer.childCount < tileCount;
+    }
+
     /* ======================================================================================================================== */
     /* EVENT CALLERS                                                                                                            */
     /* ======================================================================================================================== */

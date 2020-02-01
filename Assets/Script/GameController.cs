@@ -80,11 +80,26 @@ public class GameController : MonoBehaviour
 
     private void CheckNoOptionLeft()
     {
+        //Check if target segment is reachable
+        var finishSegment = PathfinderBeemaker.GetAllConnectedTiles(TileController.Instance.GetFinishHoneycomb());
+        var beeIsInFinishSegment = finishSegment.Contains(bee.currentTile); // Bee is moving
+        if (!beeIsInFinishSegment)
+        {
+            var isAnyOpenInFinishSegment = finishSegment.Any(t => t.HasAnyDoor());
+            if (!isAnyOpenInFinishSegment)
+            {
+                StartCoroutine(
+                    GameOverWithAnItsyBitsyTeenyWeenyNoImmediateDeathMachiney(GameOverReason.TargetPathBlocked));
+            }
+        }
+        
+        // Check if there if the segment the bee is on has at least one open connection
         var flood = PathfinderBeemaker.GetAllConnectedTiles(bee.currentTile);
         var isAnyOpen = flood.Any(t => t.HasAnyDoor());
         if (!isAnyOpen)
         {
-            GameOver();
+            StartCoroutine(
+                GameOverWithAnItsyBitsyTeenyWeenyNoImmediateDeathMachiney(GameOverReason.BeePathBlocked));
         }
     }
 
@@ -129,16 +144,29 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void GameOver()
+    public IEnumerator GameOverWithAnItsyBitsyTeenyWeenyNoImmediateDeathMachiney(
+        GameOverReason reason = GameOverReason.Undefined)
     {
-        if (IsGameOver == false)
-        {
-            IsGameOver = true;
-            gameOverOverlay.SetActive(true);
+        IsGameOver = true;
+        AudioController.Instance.PlaySound("GameOverSound");
+        AudioController.Instance.StopAllMusic();
+        
+        yield return new WaitForSeconds(1);
+        GameOver(reason);
+    }
 
+    public void GameOver(GameOverReason reason = GameOverReason.Undefined)
+    {
+        if (!IsGameOver)
+        {
             AudioController.Instance.PlaySound("GameOverSound");
             AudioController.Instance.StopAllMusic();
         }
+
+        Debug.Log("GameOver Reason: " + Enum.GetName(typeof(GameOverReason), reason));
+        
+        IsGameOver = true; 
+        gameOverOverlay.SetActive(true);
     }
 
     public void LevelFinished()
@@ -203,4 +231,10 @@ public class GameController : MonoBehaviour
     /* EVENT LISTENERS                                                                                                          */
     /* ======================================================================================================================== */
 
+    public enum GameOverReason
+    {
+        BeePathBlocked,
+        TargetPathBlocked,
+        Undefined,
+    }
 }
