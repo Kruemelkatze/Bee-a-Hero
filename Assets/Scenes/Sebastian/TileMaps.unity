@@ -1228,18 +1228,33 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 968923993, guid: 97f78882017d6be4483e3f752101f2b1, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
-      value: 0
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 419341253347317408, guid: 97f78882017d6be4483e3f752101f2b1,
-        type: 3}
-      propertyPath: startDelay
-      value: 0.5
+    - target: {fileID: 968923993, guid: 97f78882017d6be4483e3f752101f2b1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 419341253347317408, guid: 97f78882017d6be4483e3f752101f2b1,
+    - target: {fileID: 968923993, guid: 97f78882017d6be4483e3f752101f2b1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 968923993, guid: 97f78882017d6be4483e3f752101f2b1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 3116566588583781786, guid: 72813db8ffca9ea42befb183e7502ac1,
         type: 3}
-      propertyPath: timeBetweenLetters
-      value: 0.02
+    - target: {fileID: 968923993, guid: 97f78882017d6be4483e3f752101f2b1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlaySound
+      objectReference: {fileID: 0}
+    - target: {fileID: 968923993, guid: 97f78882017d6be4483e3f752101f2b1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 968923993, guid: 97f78882017d6be4483e3f752101f2b1, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: ClickSound
       objectReference: {fileID: 0}
     - target: {fileID: 419341253347317409, guid: 97f78882017d6be4483e3f752101f2b1,
         type: 3}
@@ -1300,21 +1315,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: DialogueController
-      objectReference: {fileID: 0}
-    - target: {fileID: 2747001804160904299, guid: 97f78882017d6be4483e3f752101f2b1,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2747001804160904299, guid: 97f78882017d6be4483e3f752101f2b1,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2747001804160904299, guid: 97f78882017d6be4483e3f752101f2b1,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 97f78882017d6be4483e3f752101f2b1, type: 3}

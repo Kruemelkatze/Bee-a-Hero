@@ -10,6 +10,7 @@ public class DialogueController : MonoBehaviour
     /* VARIABLE DECLARATIONS                                                                                                    */
     /* ======================================================================================================================== */
 
+    [SerializeField] private GameObject raycastStopPanel;
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI dialogueText;
@@ -20,6 +21,7 @@ public class DialogueController : MonoBehaviour
     public static DialogueController Instance;
 
     private Queue<string> sentences;
+    private bool firstDialogue;
 
     /* ======================================================================================================================== */
     /* UNITY CALLBACKS                                                                                                          */
@@ -39,7 +41,9 @@ public class DialogueController : MonoBehaviour
 
     private void Start()
     {
+        firstDialogue = true;
         sentences = new Queue<string>();
+        raycastStopPanel.SetActive(false);
     }
 
     private void Update()
@@ -60,6 +64,7 @@ public class DialogueController : MonoBehaviour
         }
         else
         {
+            raycastStopPanel.SetActive(false);
             animator.SetBool("IsOpen", false);
         }
     }
@@ -67,6 +72,12 @@ public class DialogueController : MonoBehaviour
     private IEnumerator TypeSentence(string sentence)
     {
         dialogueText.text = "";
+
+        if (firstDialogue == true)
+        {
+            firstDialogue = false;
+            yield return new WaitForSeconds(startDelay);
+        }
         
         foreach (char item in sentence.ToCharArray())
         {
@@ -74,19 +85,14 @@ public class DialogueController : MonoBehaviour
             yield return new WaitForSeconds(timeBetweenLetters);
         }
     }
-
-    private IEnumerator StartDialogueCoroutine()
-    {
-        yield return new WaitForSeconds(startDelay);
-        DisplayNextSentence();
-    }
-
+    
     /* ======================================================================================================================== */
     /* PUBLIC FUNCTIONS                                                                                                         */
     /* ======================================================================================================================== */
 
     public void StartDialogue(Dialogue dialogue)
     {
+        raycastStopPanel.SetActive(true);
         animator.SetBool("IsOpen", true);
 
         image.sprite = dialogue.image;
@@ -104,13 +110,14 @@ public class DialogueController : MonoBehaviour
         }
 
         dialogueText.text = "";
-        StartCoroutine(StartDialogueCoroutine());
+        DisplayNextSentence();
     }
 
     public void DisplayNextSentence(bool isFirstSentence = false)
     {
         if (sentences.Count == 0)
         {
+            StopAllCoroutines();
             EndDialogue();
             return;
         }
