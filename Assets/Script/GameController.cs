@@ -151,8 +151,8 @@ public class GameController : MonoBehaviour
     {
         if (targetTile == TileController.Instance.GetFinishHoneycomb())
         {
-            // TODO: Call Level finished function 
             Debug.Log("Finished Level");
+            LevelFinished();
         }
     }
 
