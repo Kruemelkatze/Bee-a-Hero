@@ -52,7 +52,7 @@ public class TileController : MonoBehaviour
 
     private void OnGUI()
     {
-        PrintTiles();
+        //PrintTiles();
     }
 
     // Update is called once per frame
@@ -83,6 +83,7 @@ public class TileController : MonoBehaviour
                             Quaternion.identity, honeycombContainer);
                         var hc = newHoneycomb.GetComponent<Honeycomb>();
                         hc.number = creationCounter;
+                        newHoneycomb.name = "HoneyComb " + hc.number;
                         hc.SetWalls(selectedHoneycomb);
                         foreach (Transform item in honeycombContainer)
                         {
