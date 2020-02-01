@@ -15,8 +15,30 @@ public class Honeycomb : MonoBehaviour
     [SerializeField] private GameObject selectionHighlight;
     [SerializeField] private Transform wallSprites;
     
+    public int number;
+    
     private bool[] walls;
     private Honeycomb[] connectedHoneycombs;
+    
+    private Vector3Int[] yEvenOffsets = new[]
+    {
+        new Vector3Int(1, 0, 0),     // right
+        new Vector3Int(0, 1, 0),     // top right
+        new Vector3Int(-1,1,0),    // top left
+        new Vector3Int(-1, 0, 0),    // left
+        new Vector3Int(-1, -1, 0),   // bottom left
+        new Vector3Int(0, -1, 0) // bottom right
+    };
+    
+    private Vector3Int[] yUnevenOffsets = new[]
+    {
+        new Vector3Int(1, 0, 0),     // right
+        new Vector3Int(1,1,0),     // top right
+        new Vector3Int(0, 1, 0),    // top left
+        new Vector3Int(-1, 0, 0),    // left
+        new Vector3Int(0, -1, 0),   // bottom left
+        new Vector3Int(1, -1, 0) // bottom right
+    };
     
     /* ======================================================================================================================== */
     /* UNITY CALLBACKS                                                                                                          */
@@ -39,6 +61,11 @@ public class Honeycomb : MonoBehaviour
     /* ======================================================================================================================== */
     /* PUBLIC FUNCTIONS                                                                                                         */
     /* ======================================================================================================================== */
+
+    public Honeycomb[] GetConnectedHoneycombs()
+    {
+        return connectedHoneycombs;
+    }
     
     public void RandomizeWalls()
     {
@@ -81,20 +108,13 @@ public class Honeycomb : MonoBehaviour
     }
     
     // Checking the honeycomb in counterclockwise order, starting with the honeycomb on the right side and writing the honeycomb to the connectedHoneycombs array
-    public void GetConnectedHoneycombs(Transform HoneycompContainer, Tilemap playAreaTileMap, Vector3Int position)
+    public void FindConnectedHoneycombs(Transform HoneycompContainer, Tilemap playAreaTileMap, Vector3Int position)
     {
         connectedHoneycombs = new Honeycomb[6];
-        
+
+        var yEven = position.y % 2 == 0;
         // set offsets for counterclockwise checking of the honeycombs
-        Vector3Int[] offsets = new[]
-        {
-            new Vector3Int(1, 0, 0),     // right
-            new Vector3Int(0, 1, 0),     // top right
-            new Vector3Int(-1, 1, 0),    // top left
-            new Vector3Int(-1, 0, 0),    // left
-            new Vector3Int(-1, -1, 0),   // bottom left
-            new Vector3Int(0, -1, 0)     // bottom right
-        };
+        Vector3Int[] offsets = yEven ? yEvenOffsets : yUnevenOffsets;
 
         // loop over the counterclockwise positions and set the connectedHoneycombs
         for (int i = 0; i < connectedHoneycombs.Length; i++)
@@ -103,12 +123,14 @@ public class Honeycomb : MonoBehaviour
             Vector3 worldPosition = playAreaTileMap.CellToWorld(checkedPosition);
             foreach (Transform item in HoneycompContainer)
             {
-                if (item.position == worldPosition)
+                if ( Vector3.Distance(item.position,worldPosition) < 0.1f)
                 {
                     connectedHoneycombs[i] = item.GetComponent<Honeycomb>();
                 }
             }
         }
+
+        Debug.Log("Calc "+ position);
     }
 
     /* ======================================================================================================================== */
