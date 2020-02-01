@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using FTG.AudioController;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -71,6 +72,8 @@ public class DialogueController : MonoBehaviour
 
     private IEnumerator TypeSentence(string sentence)
     {
+        AudioController.Instance.PlaySound("DialogueSound");
+        
         dialogueText.text = "";
 
         if (firstDialogue == true)
@@ -84,6 +87,8 @@ public class DialogueController : MonoBehaviour
             dialogueText.text += item;
             yield return new WaitForSeconds(timeBetweenLetters);
         }
+        
+        AudioController.Instance.StopSound("DialogueSound");
     }
     
     /* ======================================================================================================================== */
