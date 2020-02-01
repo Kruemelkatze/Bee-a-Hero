@@ -16,7 +16,8 @@ public class TileController : MonoBehaviour
     /* ======================================================================================================================== */
     /* VARIABLE DECLARATIONS                                                                                                    */
     /* ======================================================================================================================== */
-
+    public static TileController Instance;
+    
     [SerializeField] private Grid grid;
     [SerializeField] private Tile playAreaTile;
     [SerializeField] private Tilemap backgroundTileMap;
@@ -29,10 +30,23 @@ public class TileController : MonoBehaviour
     [SerializeField] private int creationCounter = 0;
     
     private Honeycomb selectedHoneycomb;
+    private Honeycomb startHoneycomb;
+    private Honeycomb finishHoneycomb;
     
     /* ======================================================================================================================== */
     /* UNITY CALLBACKS                                                                                                          */
     /* ======================================================================================================================== */
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
     
     // Start is called before the first frame update
     void Start()
@@ -108,6 +122,8 @@ public class TileController : MonoBehaviour
                         selectedHoneycomb.RandomizeWalls();
                         selectedHoneycomb.Deselect();
                         selectedHoneycomb = null;
+
+                        GameController.Instance.TilePlaced(hc);
                     }
                 }
             }
@@ -148,21 +164,21 @@ public class TileController : MonoBehaviour
     // Play Start and Finish Tiles
     private void Setup()
     {
-        var startGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, -4, 0)),
-            Quaternion.identity, honeycombContainer);
+        var startGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, -4, 0)), Quaternion.identity, honeycombContainer);
         startGO.name = "Start";
-        var startHC = startGO.GetComponent<Honeycomb>();
-        startHC.SetStartWalls();
-        startHC.SetDoors();
-        startHC.UpdateWalls();
-
-        var endGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, 4, 0)), Quaternion.identity,
-            honeycombContainer);
-        endGO.name = "End";
-        var endHC = endGO.GetComponent<Honeycomb>();
-        endHC.SetFinishWalls();
-        endHC.SetDoors();
-        endHC.UpdateWalls();
+        startHoneycomb = startGO.GetComponent<Honeycomb>();
+        startHoneycomb.SetStartWalls();
+        startHoneycomb.SetDoors();
+        startHoneycomb.UpdateWalls();
+        
+        GameController.Instance.StartTilePlaced(startHoneycomb);
+        
+        var finishGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, 4, 0)), Quaternion.identity, honeycombContainer);
+        finishGO.name = "End";
+        finishHoneycomb = finishGO.GetComponent<Honeycomb>();
+        finishHoneycomb.SetFinishWalls();
+        finishHoneycomb.SetDoors();
+        finishHoneycomb.UpdateWalls();
     }
     
     private void PrintTiles()
@@ -187,6 +203,11 @@ public class TileController : MonoBehaviour
     public void SetGrid(Grid newGrid)
     {
         grid = newGrid;
+    }
+    
+    public Honeycomb GetFinishHoneycomb()
+    {
+        return finishHoneycomb;
     }
     
     /* ======================================================================================================================== */

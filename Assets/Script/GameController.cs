@@ -19,6 +19,8 @@ public class GameController : MonoBehaviour
         
     [SerializeField] private Dialogue[] dialogues;
     
+    [SerializeField] private Bee bee;
+    
     public bool IsPaused { get; private set; }
     public bool IsRunning { get; private set; }
     public bool IsGameOver { get; private set; }
@@ -127,6 +129,22 @@ public class GameController : MonoBehaviour
     {
         AudioController.Instance.PlayMusic("MilfMusic");
         AudioController.Instance.TransitionToSnapshot("GamePlayMilfSnapshot");
+    }
+
+    public void StartTilePlaced(Honeycomb tile)
+    {
+        bee.SetStartTile(tile);
+    }
+
+    public void TilePlaced(Honeycomb tile)
+    {
+        var path = PathfinderBeemaker.FindPath(bee.currentTile, TileController.Instance.GetFinishHoneycomb());
+        if (path.Count == 0)
+        {
+            // No Path to finish found, get to target tile
+            path = PathfinderBeemaker.FindPath(bee.currentTile, tile);
+        }
+        bee.Navigate(path);
     }
 
     /* ======================================================================================================================== */
