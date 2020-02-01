@@ -57,5 +57,6 @@ public class Bee : MonoBehaviour
         originTile = targetTile;
         targetTile = null;
         moving = false;
+        GameController.Instance.BeeFinishedNavigating(originTile);
     }
 }
