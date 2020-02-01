@@ -86,9 +86,14 @@ public class TileController : MonoBehaviour
                         hc.number = creationCounter;
                         newHoneycomb.name = "HoneyComb " + hc.number;
                         hc.SetWalls(selectedHoneycomb);
-                        foreach (Transform item in honeycombContainer)
+
+                        var honeyCombs = honeycombContainer.GetComponentsInChildren<Honeycomb>();
+                        foreach (Honeycomb item in honeyCombs)
                         {
-                            item.GetComponent<Honeycomb>().FindConnectedHoneycombs(honeycombContainer, playAreaTileMap, playAreaTileMap.WorldToCell(item.position));
+                            var itemHC = item.GetComponent<Honeycomb>();
+                            itemHC.FindConnectedHoneycombs(honeyCombs, playAreaTileMap, playAreaTileMap.WorldToCell(item.transform.position));
+                            itemHC.SetDoors(honeyCombs);
+                            
                         }
                         
                         // get new randomized honeycomb and deselect it

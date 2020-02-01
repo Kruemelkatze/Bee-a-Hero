@@ -14,6 +14,7 @@ public class Honeycomb : MonoBehaviour
 
     [SerializeField] private GameObject selectionHighlight;
     [SerializeField] private Transform wallSprites;
+    [SerializeField] private Transform doorSprites;
     
     public int number;
     
@@ -58,10 +59,19 @@ public class Honeycomb : MonoBehaviour
     /* PRIVATE FUNCTIONS                                                                                                        */
     /* ======================================================================================================================== */
 
+    
+    
     /* ======================================================================================================================== */
     /* PUBLIC FUNCTIONS                                                                                                         */
     /* ======================================================================================================================== */
+    public bool IsSideOpen(int side)
+    {
+        // R, TR, TL, L, BL, BR
+        return !walls[side];
+    }
 
+    public bool IsOppositeSideOpen(int side) => IsSideOpen((side + 3) % 6);
+    
     public Honeycomb[] GetConnectedHoneycombs()
     {
         return connectedHoneycombs;
@@ -91,6 +101,12 @@ public class Honeycomb : MonoBehaviour
         }
     }
 
+    public void SetDoors(Honeycomb[] honeyCombs)
+    {
+        // Walls and connected tiles are already set
+        // TODO
+    }
+
     // Get walls configuration
     public bool[] GetWalls()
     {
@@ -108,8 +124,10 @@ public class Honeycomb : MonoBehaviour
     }
     
     // Checking the honeycomb in counterclockwise order, starting with the honeycomb on the right side and writing the honeycomb to the connectedHoneycombs array
-    public void FindConnectedHoneycombs(Transform HoneycompContainer, Tilemap playAreaTileMap, Vector3Int position)
+    public void FindConnectedHoneycombs(Honeycomb[] honeyCombs, Tilemap playAreaTileMap, Vector3Int position)
     {
+        // Walls are already set
+        
         connectedHoneycombs = new Honeycomb[6];
 
         var yEven = position.y % 2 == 0;
@@ -119,13 +137,17 @@ public class Honeycomb : MonoBehaviour
         // loop over the counterclockwise positions and set the connectedHoneycombs
         for (int i = 0; i < connectedHoneycombs.Length; i++)
         {
+            if (!IsSideOpen(i))
+            {
+                continue;
+            }
             Vector3Int checkedPosition = position + offsets[i];
             Vector3 worldPosition = playAreaTileMap.CellToWorld(checkedPosition);
-            foreach (Transform item in HoneycompContainer)
+            foreach (Honeycomb item in honeyCombs)
             {
-                if ( Vector3.Distance(item.position,worldPosition) < 0.1f)
+                if ( Vector3.Distance(item.transform.position,worldPosition) < 0.1f && connectedHoneycombs[i].IsOppositeSideOpen(i))
                 {
-                    connectedHoneycombs[i] = item.GetComponent<Honeycomb>();
+                    connectedHoneycombs[i] = item;
                 }
             }
         }
