@@ -3,24 +3,19 @@ using System.Collections.Generic;
 using FTG.AudioController;
 using UnityEngine;
 
-public class MainMenu : MonoBehaviour
+public class SoundTests : MonoBehaviour
 {
     /* ======================================================================================================================== */
     /* VARIABLE DECLARATIONS                                                                                                    */
     /* ======================================================================================================================== */
 
-    [SerializeField] private GameObject settingsPanel;
-        
     /* ======================================================================================================================== */
     /* UNITY CALLBACKS                                                                                                          */
     /* ======================================================================================================================== */
 
     private void Start()
     {
-        settingsPanel.SetActive(false);
-
-        AudioController.Instance.PlayMusic("MenuMusic", false);
-        AudioController.Instance.TransitionToSnapshot("MenuMusicSnapshot", 0.5f);
+        
     }
 
     private void Update()
@@ -36,16 +31,28 @@ public class MainMenu : MonoBehaviour
     /* PUBLIC FUNCTIONS                                                                                                         */
     /* ======================================================================================================================== */
 
-    public void OpenSettings()
+    public void PlayPlacementSound()
     {
-        settingsPanel.SetActive(true);
+        AudioController.Instance.PlaySound("PlacementSound");
     }
 
-    public void CloseSettings()
+    public void PlayGrabSound()
     {
-        settingsPanel.SetActive(false);
+        string[] grabSounds = new string[]
+        {
+            "GrabSound1", 
+            "GrabSound2", 
+            "GrabSound3"
+        };
+
+        AudioController.Instance.PlaySound(grabSounds[Random.Range(0, grabSounds.Length)]);
     }
 
+    public void PlayClickSound()
+    {
+        AudioController.Instance.PlaySound("ClickSound");
+    }
+    
     /* ======================================================================================================================== */
     /* EVENT CALLERS                                                                                                            */
     /* ======================================================================================================================== */

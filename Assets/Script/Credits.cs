@@ -3,22 +3,18 @@ using System.Collections.Generic;
 using FTG.AudioController;
 using UnityEngine;
 
-public class MainMenu : MonoBehaviour
+public class Credits : MonoBehaviour
 {
     /* ======================================================================================================================== */
     /* VARIABLE DECLARATIONS                                                                                                    */
     /* ======================================================================================================================== */
 
-    [SerializeField] private GameObject settingsPanel;
-        
     /* ======================================================================================================================== */
     /* UNITY CALLBACKS                                                                                                          */
     /* ======================================================================================================================== */
 
     private void Start()
     {
-        settingsPanel.SetActive(false);
-
         AudioController.Instance.PlayMusic("MenuMusic", false);
         AudioController.Instance.TransitionToSnapshot("MenuMusicSnapshot", 0.5f);
     }
@@ -35,16 +31,6 @@ public class MainMenu : MonoBehaviour
     /* ======================================================================================================================== */
     /* PUBLIC FUNCTIONS                                                                                                         */
     /* ======================================================================================================================== */
-
-    public void OpenSettings()
-    {
-        settingsPanel.SetActive(true);
-    }
-
-    public void CloseSettings()
-    {
-        settingsPanel.SetActive(false);
-    }
 
     /* ======================================================================================================================== */
     /* EVENT CALLERS                                                                                                            */
