@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class DialogueController : MonoBehaviour
 {
@@ -9,15 +10,18 @@ public class DialogueController : MonoBehaviour
     /* VARIABLE DECLARATIONS                                                                                                    */
     /* ======================================================================================================================== */
 
+    [SerializeField] private GameObject raycastStopPanel;
+    [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private Animator animator;
     [SerializeField] private float startDelay;
     [SerializeField] private float timeBetweenLetters;
 
-    public static DialogueController instance;
+    public static DialogueController Instance;
 
     private Queue<string> sentences;
+    private bool firstDialogue;
 
     /* ======================================================================================================================== */
     /* UNITY CALLBACKS                                                                                                          */
@@ -25,21 +29,21 @@ public class DialogueController : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
-            DontDestroyOnLoad(this);
+            Instance = this;
         }
         else
         {
             Destroy(gameObject);
-            return;
         }
     }
 
     private void Start()
     {
+        firstDialogue = true;
         sentences = new Queue<string>();
+        raycastStopPanel.SetActive(false);
     }
 
     private void Update()
@@ -53,33 +57,45 @@ public class DialogueController : MonoBehaviour
 
     private void EndDialogue()
     {
-        animator.SetBool("IsOpen", false);
+        Dialogue nextDialogue = GameController.Instance.GetNextDialogue();
+        if (nextDialogue != null)
+        {
+            StartDialogue(nextDialogue);   
+        }
+        else
+        {
+            raycastStopPanel.SetActive(false);
+            animator.SetBool("IsOpen", false);
+        }
     }
 
-    private IEnumerator TypeSentence(string sentence, bool isFirstSentence = false)
+    private IEnumerator TypeSentence(string sentence)
     {
         dialogueText.text = "";
 
-        if (isFirstSentence == true)
+        if (firstDialogue == true)
         {
+            firstDialogue = false;
             yield return new WaitForSeconds(startDelay);
         }
-
+        
         foreach (char item in sentence.ToCharArray())
         {
             dialogueText.text += item;
             yield return new WaitForSeconds(timeBetweenLetters);
         }
     }
-
+    
     /* ======================================================================================================================== */
     /* PUBLIC FUNCTIONS                                                                                                         */
     /* ======================================================================================================================== */
 
     public void StartDialogue(Dialogue dialogue)
     {
+        raycastStopPanel.SetActive(true);
         animator.SetBool("IsOpen", true);
 
+        image.sprite = dialogue.image;
         nameText.text = dialogue.name;
 
         if (sentences == null)
@@ -93,20 +109,22 @@ public class DialogueController : MonoBehaviour
             sentences.Enqueue(item);
         }
 
-        DisplayNextSentence(true);
+        dialogueText.text = "";
+        DisplayNextSentence();
     }
 
     public void DisplayNextSentence(bool isFirstSentence = false)
     {
         if (sentences.Count == 0)
         {
+            StopAllCoroutines();
             EndDialogue();
             return;
         }
 
         string sentence = sentences.Dequeue();
         StopAllCoroutines();
-        StartCoroutine(TypeSentence(sentence, isFirstSentence));
+        StartCoroutine(TypeSentence(sentence));
     }
 
     /* ======================================================================================================================== */

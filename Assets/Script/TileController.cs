@@ -58,7 +58,8 @@ public class TileController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameController.Instance.IsPaused == true)
+        if ((GameController.Instance.IsPaused == true) ||
+            (GameController.Instance.isRunning == false))
         {
             return;
         }
