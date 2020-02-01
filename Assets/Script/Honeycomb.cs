@@ -85,16 +85,15 @@ public class Honeycomb : MonoBehaviour
         return connectedHoneycombs;
     }
     
-    public void RandomizeWalls()
+    public void InitWalls(bool[] openings)
     {
         walls = new bool[6];
         
         for (int i = 0; i < walls.Length; i++)
         {
-            bool hasWall = Random.Range(0f, 1f) > 0.5f;
-            walls[i] = hasWall;
-            wallSprites.GetChild(i).gameObject.SetActive(hasWall);
-            doorSprites.GetChild(i).gameObject.SetActive(!hasWall);
+            walls[i] = !openings[i];
+            wallSprites.GetChild(i).gameObject.SetActive(walls[i]);
+            doorSprites.GetChild(i).gameObject.SetActive(!walls[i]);
         }
     }
 

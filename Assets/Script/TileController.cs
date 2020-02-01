@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Xml.Linq;
 using FTG.AudioController;
@@ -33,6 +34,22 @@ public class TileController : MonoBehaviour
     private Honeycomb selectedHoneycomb;
     private Honeycomb startHoneycomb;
     private Honeycomb finishHoneycomb;
+
+    [Header("Spawn Percentages")] 
+    [Range(0, 1f)]
+    public float p0 = 0;
+    [Range(0, 1f)]
+    public float p1 = 0.15f;
+    [Range(0, 1f)]
+    public float p2 = 0.35f;
+    [Range(0, 1f)]
+    public float p3 = 0.25f;
+    [Range(0, 1f)]
+    public float p4 = 0.1f;
+    [Range(0, 1f)]
+    public float p5 = 0.1f;
+    [Range(0, 1f)]
+    public float p6 = 0.05f;
     
     /* ======================================================================================================================== */
     /* UNITY CALLBACKS                                                                                                          */
@@ -106,7 +123,7 @@ public class TileController : MonoBehaviour
                         }
                         
                         // get new randomized honeycomb and deselect it
-                        selectedHoneycomb.RandomizeWalls();
+                        selectedHoneycomb.InitWalls(GetRandomEdgeDefinition());
                         selectedHoneycomb.Deselect();
                         selectedHoneycomb = null;
 
@@ -143,7 +160,33 @@ public class TileController : MonoBehaviour
             }
         }
     }
-    
+
+    private void OnValidate()
+    {
+        Debug.Log("Validating");
+        var pSum = p0 + p1 + p2 + p3 + p4 + p5 + p6;
+        if (pSum == 0)
+        {
+            p0 = 0;
+            p1 = 1/6f;
+            p2 = 1/6f;
+            p3 = 1/6f;
+            p4 = 1/6f;
+            p5 = 1/6f;
+            p6 = 1/6f;
+        }
+        else
+        {
+            p0 /= pSum;
+            p1 /= pSum;
+            p2 /= pSum;
+            p3 /= pSum;
+            p4 /= pSum;
+            p5 /= pSum;
+            p6 /= pSum;
+        }
+    }
+
     /* ======================================================================================================================== */
     /* PRIVATE FUNCTIONS                                                                                                        */
     /* ======================================================================================================================== */
@@ -162,6 +205,33 @@ public class TileController : MonoBehaviour
             }
         }
     }
+
+    private int GetWeightedRandomEntry(float[] percentages)
+    {
+        var sum = percentages.Sum();
+        var percentageSums = new float[percentages.Length];
+        percentageSums[0] = percentages[0] / sum;
+        
+        for (int i = 1; i < percentages.Length; i++)
+        {
+            percentageSums[i] = percentages[i] / sum + percentageSums[i - 1];
+        }
+
+        var random = Random.Range(0f, 1f);
+
+        var chosen = 0;
+        for (int i = 1; i < percentageSums.Length; i++)
+        {
+            if (percentageSums[i] > random)
+            {
+                return i;
+            }
+
+            chosen = i;
+        }
+
+        return chosen;
+    }
     
     /* ======================================================================================================================== */
     /* PUBLIC FUNCTIONS                                                                                                         */
@@ -173,15 +243,15 @@ public class TileController : MonoBehaviour
         // randomize selection honeycombs
         GameObject newSelectionHoneycomb = Instantiate(honeycombPrefab, tileSelectionTileMap.CellToWorld(new Vector3Int(6, 2, 0)), Quaternion.identity,
             availableHoneycombContainer);
-        newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
+        newSelectionHoneycomb.GetComponent<Honeycomb>().InitWalls(GetRandomEdgeDefinition());
         
         newSelectionHoneycomb = Instantiate(honeycombPrefab, tileSelectionTileMap.CellToWorld(new Vector3Int(6, 0, 0)), Quaternion.identity,
             availableHoneycombContainer);
-        newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
+        newSelectionHoneycomb.GetComponent<Honeycomb>().InitWalls(GetRandomEdgeDefinition());
         
         newSelectionHoneycomb = Instantiate(honeycombPrefab, tileSelectionTileMap.CellToWorld(new Vector3Int(6, -2, 0)), Quaternion.identity,
             availableHoneycombContainer);
-        newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
+        newSelectionHoneycomb.GetComponent<Honeycomb>().InitWalls(GetRandomEdgeDefinition());
 
         selectedHoneycomb = null;
         
@@ -251,6 +321,31 @@ public class TileController : MonoBehaviour
         return honeycombContainer.childCount < tileCount;
     }
 
+    public int GetWeightedRandomOpeningCount()
+    {
+        var percentages = new []{ p0,p1,p2,p3,p4,p5,p6 };
+        var entry = GetWeightedRandomEntry(percentages);
+        return entry;
+    }
+
+    private static int[] Edges = {0, 1, 2, 3, 4, 5};
+    public IEnumerable<int> GetRandomEdges(int count)
+    {
+        return Edges.OrderBy(x => Random.value).Take(count);
+    }
+    
+    public bool[] GetRandomEdgeDefinition()
+    {
+        var def = new bool[6];
+        var edges = Edges.OrderBy(x => Random.value).Take(GetWeightedRandomOpeningCount());
+        foreach (var edge in edges)
+        {
+            def[edge] = true;
+        }
+
+        return def;
+    }
+    
     /* ======================================================================================================================== */
     /* EVENT CALLERS                                                                                                            */
     /* ======================================================================================================================== */
@@ -258,4 +353,22 @@ public class TileController : MonoBehaviour
     /* ======================================================================================================================== */
     /* EVENT LISTENERS                                                                                                          */
     /* ======================================================================================================================== */
+    
+    [CustomEditor(typeof(TileController))]
+    public class TileControllerEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            var tileController = target as TileController;
+            DrawDefaultInspector();
+            
+            if (GUILayout.Button("Get Weighted Entry"))
+            {
+                var count = tileController.GetWeightedRandomOpeningCount();
+                var edges = tileController.GetRandomEdges(count);
+                var def = tileController.GetRandomEdgeDefinition();
+                Debug.Log(string.Join(",", def));
+            }
+        }
+    }
 }
