@@ -57,8 +57,10 @@ MonoBehaviour:
   soundVolume: -11.283136
   arraySound:
   - {fileID: 11400000, guid: a7cc657e2bf708f4482b23af4809a61d, type: 2}
+  - {fileID: 11400000, guid: d455ec10a64e4d4419640f9552bf9a89, type: 2}
+  - {fileID: 11400000, guid: b124c70c0c90fae4d84ca4e9363900d3, type: 2}
   - {fileID: 11400000, guid: a3d81312f9284e44a807ce938d341bb5, type: 2}
   - {fileID: 11400000, guid: 40a676cacd9708f419f5245ddd394b31, type: 2}
   - {fileID: 11400000, guid: 52e36001075bde04da9a4dcf3872d9ce, type: 2}
   - {fileID: 11400000, guid: a89e2bd8663e40a4494e49f2f15bed68, type: 2}
-  - {fileID: 11400000, guid: b124c70c0c90fae4d84ca4e9363900d3, type: 2}
+  - {fileID: 11400000, guid: 90942547ca5976548a3f23c32aedcf8e, type: 2}
