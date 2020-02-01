@@ -44,8 +44,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicMixer: {fileID: 24100000, guid: cec7177672a008148a78eaba3c18867b, type: 2}
-  musicVolume: -6
-  arrayMusic: []
+  musicVolume: -4.071737
+  arrayMusic:
+  - {fileID: 11400000, guid: 1cb898a38df076f46b8e07850b36d954, type: 2}
+  - {fileID: 11400000, guid: 080eb055346ae9a48a6c89e1a056a131, type: 2}
+  - {fileID: 11400000, guid: 5fe1a20f8c15fce48b91b0af4fe0fdfa, type: 2}
+  arraySnapshot:
+  - {fileID: 2443284951859029449, guid: cec7177672a008148a78eaba3c18867b, type: 2}
+  - {fileID: 24500006, guid: cec7177672a008148a78eaba3c18867b, type: 2}
   soundMixer: {fileID: 24100000, guid: bb9c9d374bbc1b34d954f404c09e7016, type: 2}
-  soundVolume: -6
-  arraySound: []
+  soundVolume: -10.644724
+  arraySound:
+  - {fileID: 11400000, guid: a7cc657e2bf708f4482b23af4809a61d, type: 2}
+  - {fileID: 11400000, guid: a3d81312f9284e44a807ce938d341bb5, type: 2}
+  - {fileID: 11400000, guid: 40a676cacd9708f419f5245ddd394b31, type: 2}
+  - {fileID: 11400000, guid: 52e36001075bde04da9a4dcf3872d9ce, type: 2}
+  - {fileID: 11400000, guid: a89e2bd8663e40a4494e49f2f15bed68, type: 2}
