@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using FTG.AudioController;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Quaternion = UnityEngine.Quaternion;
+using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
 
 public class TileController : MonoBehaviour
@@ -59,7 +61,8 @@ public class TileController : MonoBehaviour
     void Update()
     {
         if ((GameController.Instance.IsPaused == true) ||
-            (GameController.Instance.isRunning == false))
+            (GameController.Instance.IsRunning == false) ||
+            (GameController.Instance.IsGameOver == true))
         {
             return;
         }
@@ -76,6 +79,8 @@ public class TileController : MonoBehaviour
                 {
                     if (selectedHoneycomb != null)
                     {
+                        AudioController.Instance.PlaySound("PlacementSound");
+                        
                         creationCounter++;
                         
                         // place the selected honeycomb
@@ -107,6 +112,15 @@ public class TileController : MonoBehaviour
             // check if a honeycomb from the selection is clicked and set the selected honeycomb
             if (tileSelectionTileMap.HasTile(position) == true)
             {
+                string[] grabSounds = 
+                {
+                    "GrabSound1", 
+                    "GrabSound2", 
+                    "GrabSound3"
+                };
+
+                AudioController.Instance.PlaySound(grabSounds[Random.Range(0, grabSounds.Length)]);
+                
                 if (selectedHoneycomb != null)
                 {
                     selectedHoneycomb.Deselect();
