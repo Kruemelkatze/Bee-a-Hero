@@ -13,10 +13,14 @@ public class GameController : MonoBehaviour
     public static GameController Instance;
     
     [SerializeField] private GameObject pauseOverlay;
+    [SerializeField] private GameObject gameOverOverlay;
+    
     [SerializeField] private Dialogue[] dialogues;
     
     public bool IsPaused { get; private set; }
-    public bool isRunning { get; private set; }
+    public bool IsRunning { get; private set; }
+    public bool IsGameOver { get; private set; }
+    
     private int currentDialogue;
     
     /* ======================================================================================================================== */
@@ -38,7 +42,11 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         IsPaused = false;
+        IsRunning = false;
+        IsGameOver = false;
+        
         pauseOverlay.SetActive(false);
+        gameOverOverlay.SetActive(false);
         currentDialogue = 0;
 
         AudioController.Instance.PlayMusic("GamePlayMusic", false);
@@ -89,9 +97,27 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            isRunning = true;
+            IsRunning = true;
             return null;
         }
+    }
+
+    public void GameOver()
+    {
+        if (IsGameOver == false)
+        {
+            IsGameOver = true;
+            gameOverOverlay.SetActive(true);
+
+            AudioController.Instance.PlaySound("GameOverSound");
+            AudioController.Instance.StopAllMusic();
+        }
+    }
+
+    public void ActivateMilf()
+    {
+        AudioController.Instance.PlayMusic("MilfMusic");
+        AudioController.Instance.TransitionToSnapshot("GamePlayMilfSnapshot");
     }
 
     /* ======================================================================================================================== */

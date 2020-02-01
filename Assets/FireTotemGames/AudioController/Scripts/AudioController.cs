@@ -409,7 +409,7 @@ namespace FTG.AudioController
         [UsedImplicitly]
         public float GetMusicVolume()
         {
-            return musicVolume;
+            return PlayerPrefs.GetFloat("MusicVolume", -6f);
         }
 
         /// <summary>
@@ -419,7 +419,7 @@ namespace FTG.AudioController
         [UsedImplicitly]
         public float GetSoundVolume()
         {
-            return soundVolume;
+            return PlayerPrefs.GetFloat("SoundVolume", -6f);
         }
     }
 }

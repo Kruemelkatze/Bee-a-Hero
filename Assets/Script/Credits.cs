@@ -16,7 +16,7 @@ public class Credits : MonoBehaviour
     private void Start()
     {
         AudioController.Instance.PlayMusic("MenuMusic", false);
-        AudioController.Instance.TransitionToSnapshot("MenuMusicSnapshot", 0.5f);
+        AudioController.Instance.TransitionToSnapshot("MenuSnapshot", 0.5f);
     }
 
     private void Update()

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73f4be5b4c46264ba610e27da5efb77, type: 3}
   m_Name: GameOverSound
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 00d9414ec96b774469e1ad617f9d0df5, type: 3}
+  audioClip: {fileID: 8300000, guid: 36b7e3b1d28e604498fa2afc9e87cfd4, type: 3}
   audioGroup: {fileID: 24300002, guid: bb9c9d374bbc1b34d954f404c09e7016, type: 2}
   volume: 1
   pitch: 1
