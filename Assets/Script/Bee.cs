@@ -13,6 +13,8 @@ public class Bee : MonoBehaviour
 
     [SerializeField] bool moving = false;
     [SerializeField] Coroutine activeNavigation;
+    [SerializeField] private int minPathLengthForSound = 3;
+    
         
     public float navTimeStep = 0.5f; // [s]
     
@@ -53,8 +55,11 @@ public class Bee : MonoBehaviour
     {
         moving = true;
 
-        AudioController.Instance.PlaySound("BeeLoopSound");
-        AudioController.Instance.TransitionToSnapshot("BeeSnapshot", 0.3f);
+        if (path.Count >= minPathLengthForSound)
+        {
+            AudioController.Instance.PlaySound("BeeLoopSound");
+            AudioController.Instance.TransitionToSnapshot("BeeSnapshot", 0.3f);
+        }
 
         var startIndex = path.First() == originTile ? 1 : 0;
 
