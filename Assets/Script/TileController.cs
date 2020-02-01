@@ -50,6 +50,21 @@ public class TileController : MonoBehaviour
         newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
 
         selectedHoneycomb = null;
+        
+        // Play Start and Finish Tiles
+        var startGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, -4, 0)), Quaternion.identity, honeycombContainer);
+        startGO.name = "Start";
+        var startHC = startGO.GetComponent<Honeycomb>();
+        startHC.SetStartWalls();
+        startHC.SetDoors();
+        startHC.UpdateWalls();
+        
+        var endGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, 4, 0)), Quaternion.identity, honeycombContainer);
+        endGO.name = "End";
+        var endHC = endGO.GetComponent<Honeycomb>();
+        endHC.SetFinishWalls();
+        endHC.SetDoors();
+        endHC.UpdateWalls();
     }
 
     private void OnGUI()
@@ -98,7 +113,7 @@ public class TileController : MonoBehaviour
                         {
                             var itemHC = item.GetComponent<Honeycomb>();
                             itemHC.FindConnectedHoneycombs(honeyCombs, playAreaTileMap, playAreaTileMap.WorldToCell(item.transform.position));
-                            itemHC.SetDoors(honeyCombs);
+                            itemHC.SetDoors();
                         }
                         
                         // get new randomized honeycomb and deselect it

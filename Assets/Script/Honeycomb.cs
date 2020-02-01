@@ -21,7 +21,7 @@ public class Honeycomb : MonoBehaviour
     private bool[] walls = new bool[6];
     private bool[] doors = new bool[6];
     private bool[] blocked = new bool[6];
-    private Honeycomb[] connectedHoneycombs;
+    private Honeycomb[] connectedHoneycombs = new Honeycomb[6];
     
     private Vector3Int[] yEvenOffsets = new[]
     {
@@ -91,6 +91,16 @@ public class Honeycomb : MonoBehaviour
             doorSprites.GetChild(i).gameObject.SetActive(!hasWall);
         }
     }
+
+    public void SetStartWalls()
+    {
+        walls = new [] { true, false, false, true, true, true };
+    }
+
+    public void SetFinishWalls()
+    {
+        walls = new [] { true, true, true, true, false, false };
+    }
     
     // Set the walls based on another honeycomb (selection)
     public void SetWalls(Honeycomb honeycomb)
@@ -104,7 +114,7 @@ public class Honeycomb : MonoBehaviour
         }
     }
 
-    public void SetDoors(Honeycomb[] honeyCombs)
+    public void SetDoors()
     {
         // Walls and connected tiles are already set
         // Set doors to position where no wall is present and no connected tile is set
