@@ -116,6 +116,8 @@ public class GameController : MonoBehaviour
         Transform oldLevel = tileController.GetLevel();
         Transform newLevel = Instantiate(levelPrefab, Vector3.up * 10u, Quaternion.identity, levitatingObjects);
 
+        bee = newLevel.transform.Find("Bee").GetComponent<Bee>();
+
         tileController.SetLevel(newLevel);
         tileController.Setup();
         
@@ -124,7 +126,6 @@ public class GameController : MonoBehaviour
 
         yield return new WaitForSeconds(transitionTime);
 
-        bee = newLevel.transform.Find("Bee").GetComponent<Bee>();
         Destroy(oldLevel.gameObject);
 
         IsFinished = false;
