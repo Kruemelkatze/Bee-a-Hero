@@ -131,7 +131,12 @@ PrefabInstance:
     - target: {fileID: 503421432103802220, guid: 3db675d9f52b2034fb4421e5dec64eff,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 503421432103802222, guid: 3db675d9f52b2034fb4421e5dec64eff,
+        type: 3}
+      propertyPath: navTimeStep
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2530836045099618652, guid: 3db675d9f52b2034fb4421e5dec64eff,
         type: 3}
@@ -193,7 +198,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2530836045099618655, guid: 3db675d9f52b2034fb4421e5dec64eff, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3db675d9f52b2034fb4421e5dec64eff, type: 3}
 --- !u!4 &25407938 stripped
 Transform:
@@ -225,6 +231,18 @@ Grid:
     type: 3}
   m_PrefabInstance: {fileID: 25407937}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &25407943 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 503421432103802222, guid: 3db675d9f52b2034fb4421e5dec64eff,
+    type: 3}
+  m_PrefabInstance: {fileID: 25407937}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f682cf7a1c3a5a40b53f91c6bddf6f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &68606546
 GameObject:
   m_ObjectHideFlags: 0
@@ -1070,15 +1088,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseOverlay: {fileID: 1740487235}
   gameOverOverlay: {fileID: 702428371}
-  gridPrefab: {fileID: 6285610259612295242, guid: 3e8c2352350549249b70e1b1065409fe,
+  gridPrefab: {fileID: 2530836045099618653, guid: 3db675d9f52b2034fb4421e5dec64eff,
     type: 3}
-  gridContainer: {fileID: 0}
   dialogues:
   - {fileID: 11400000, guid: 4df94272b62bf624382688d23ad31d3f, type: 2}
   - {fileID: 11400000, guid: 5cf65f901f3eed84dbe2b88fd4edb313, type: 2}
   - {fileID: 11400000, guid: 62de88308f9425f4cb886c3e1963d0da, type: 2}
   - {fileID: 11400000, guid: a48ad8e53f1df5942ad123a35da809eb, type: 2}
-  bee: {fileID: 0}
+  bee: {fileID: 25407943}
 --- !u!4 &219041549
 Transform:
   m_ObjectHideFlags: 0
@@ -3756,7 +3773,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1335258346}
-  - component: {fileID: 1335258347}
   m_Layer: 0
   m_Name: HoneycombContainer
   m_TagString: Untagged
@@ -3778,25 +3794,6 @@ Transform:
   m_Father: {fileID: 151579840}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1335258347
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1335258345}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bf3db391fee43444cbceed59873e7b52, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1531364668
 GameObject:
   m_ObjectHideFlags: 0
@@ -3806,7 +3803,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1531364669}
-  - component: {fileID: 1531364670}
   m_Layer: 0
   m_Name: AvailableHoneycombContainer
   m_TagString: Untagged
@@ -3828,25 +3824,6 @@ Transform:
   m_Father: {fileID: 151579840}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &1531364670
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1531364668}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bf3db391fee43444cbceed59873e7b52, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1740487235
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour
     public bool IsPaused { get; private set; }
     public bool IsRunning { get; private set; }
     public bool IsGameOver { get; private set; }
+    public bool IsFinished { get; private set; }
     
     private int currentDialogue;
     
@@ -48,6 +49,7 @@ public class GameController : MonoBehaviour
         IsPaused = false;
         IsRunning = false;
         IsGameOver = false;
+        IsFinished = false;
         
         pauseOverlay.SetActive(false);
         gameOverOverlay.SetActive(false);
@@ -84,6 +86,17 @@ public class GameController : MonoBehaviour
         {
             GameOver();
         }
+    }
+
+    private IEnumerator LevelFinishedCoroutine()
+    {
+        AudioController.Instance.TransitionToSnapshot("SilentSnapshot", 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        AudioController.Instance.PlaySound("WinSound");
+        yield return new WaitForSeconds(5f);
+        AudioController.Instance.TransitionToSnapshot("GamePlaySnapshot", 0.5f);
+        
+        //        Grid grid = Instantiate(gridPrefab, Vector3.up * 10u, Quaternion.identity, gridContainer);
     }
     
     /* ======================================================================================================================== */
@@ -130,9 +143,7 @@ public class GameController : MonoBehaviour
 
     public void LevelFinished()
     {
-        AudioController.Instance.PlaySound("WinSound");
-//        Grid grid = Instantiate(gridPrefab, Vector3.up * 10u, Quaternion.identity, gridContainer);
-        
+        StartCoroutine(LevelFinishedCoroutine());
     }
 
     public void ActivateMilf()
@@ -166,8 +177,14 @@ public class GameController : MonoBehaviour
 
     public void BeeFinishedNavigating(Honeycomb targetTile)
     {
+        if (IsFinished == true)
+        {
+            return;
+        }
+        
         if (targetTile == TileController.Instance.GetFinishHoneycomb())
         {
+            IsFinished = true;
             Debug.Log("Finished Level");
             LevelFinished();
         }

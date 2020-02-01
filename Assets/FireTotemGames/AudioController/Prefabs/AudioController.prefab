@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicMixer: {fileID: 24100000, guid: cec7177672a008148a78eaba3c18867b, type: 2}
-  musicVolume: -6.5971284
+  musicVolume: -3.2285926
   arrayMusic:
   - {fileID: 11400000, guid: 1cb898a38df076f46b8e07850b36d954, type: 2}
   - {fileID: 11400000, guid: 080eb055346ae9a48a6c89e1a056a131, type: 2}
@@ -53,8 +53,11 @@ MonoBehaviour:
   - {fileID: 2443284951859029449, guid: cec7177672a008148a78eaba3c18867b, type: 2}
   - {fileID: 24500006, guid: cec7177672a008148a78eaba3c18867b, type: 2}
   - {fileID: 5144522526357113691, guid: cec7177672a008148a78eaba3c18867b, type: 2}
+  - {fileID: -1606570377617279785, guid: cec7177672a008148a78eaba3c18867b, type: 2}
+  - {fileID: -78713854401675142, guid: bb9c9d374bbc1b34d954f404c09e7016, type: 2}
+  - {fileID: -6544755454464285821, guid: bb9c9d374bbc1b34d954f404c09e7016, type: 2}
   soundMixer: {fileID: 24100000, guid: bb9c9d374bbc1b34d954f404c09e7016, type: 2}
-  soundVolume: -11.283136
+  soundVolume: -3.1860719
   arraySound:
   - {fileID: 11400000, guid: a7cc657e2bf708f4482b23af4809a61d, type: 2}
   - {fileID: 11400000, guid: d455ec10a64e4d4419640f9552bf9a89, type: 2}
@@ -64,3 +67,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 52e36001075bde04da9a4dcf3872d9ce, type: 2}
   - {fileID: 11400000, guid: a89e2bd8663e40a4494e49f2f15bed68, type: 2}
   - {fileID: 11400000, guid: 90942547ca5976548a3f23c32aedcf8e, type: 2}
+  - {fileID: 11400000, guid: e116efafb3d0e714bbe4555129b0c379, type: 2}
