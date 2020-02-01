@@ -14,7 +14,6 @@ public class Bee : MonoBehaviour
     [SerializeField] bool moving = false;
     [SerializeField] Coroutine activeNavigation;
     [SerializeField] private int minPathLengthForSound = 3;
-    
         
     public float navTimeStep = 0.5f; // [s]
     
