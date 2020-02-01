@@ -39,7 +39,7 @@ public class Honeycomb : MonoBehaviour
     /* ======================================================================================================================== */
     /* PUBLIC FUNCTIONS                                                                                                         */
     /* ======================================================================================================================== */
-
+    
     public void RandomizeWalls()
     {
         walls = new bool[6];
@@ -52,6 +52,7 @@ public class Honeycomb : MonoBehaviour
         }
     }
     
+    // Set the walls based on another honeycomb (selection)
     public void SetWalls(Honeycomb honeycomb)
     {
         walls = new bool[6];
@@ -63,11 +64,12 @@ public class Honeycomb : MonoBehaviour
         }
     }
 
+    // Get walls configuration
     public bool[] GetWalls()
     {
         return walls;
     }
-
+    
     public void Select()
     {
         selectionHighlight.SetActive(true);
@@ -78,26 +80,23 @@ public class Honeycomb : MonoBehaviour
         selectionHighlight.SetActive(false);
     }
     
-    /// <summary>
-    /// Checking the tiles in counterclockwise order, starting with the tile on the right side and writing the tiles to the connectedTiles array
-    /// </summary>
-    /// <param name="HoneycompContainer"></param>
-    /// <param name="playAreaTileMap"></param>
-    /// <param name="position"></param>
+    // Checking the honeycomb in counterclockwise order, starting with the honeycomb on the right side and writing the honeycomb to the connectedHoneycombs array
     public void GetConnectedHoneycombs(Transform HoneycompContainer, Tilemap playAreaTileMap, Vector3Int position)
     {
         connectedHoneycombs = new Honeycomb[6];
         
+        // set offsets for counterclockwise checking of the honeycombs
         Vector3Int[] offsets = new[]
         {
-            new Vector3Int(1, 0, 0), // right
-            new Vector3Int(0, 1, 0), // top right
-            new Vector3Int(-1, 1, 0), // top left
-            new Vector3Int(-1, 0, 0), // left
-            new Vector3Int(-1, -1, 0), // bottom left
-            new Vector3Int(0, -1, 0) // bottom right
+            new Vector3Int(1, 0, 0),     // right
+            new Vector3Int(0, 1, 0),     // top right
+            new Vector3Int(-1, 1, 0),    // top left
+            new Vector3Int(-1, 0, 0),    // left
+            new Vector3Int(-1, -1, 0),   // bottom left
+            new Vector3Int(0, -1, 0)     // bottom right
         };
 
+        // loop over the counterclockwise positions and set the connectedHoneycombs
         for (int i = 0; i < connectedHoneycombs.Length; i++)
         {
             Vector3Int checkedPosition = position + offsets[i];

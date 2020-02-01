@@ -27,6 +27,7 @@ public class TileController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // randomize selection honeycombs
         GameObject newSelectionHoneycomb = Instantiate(honeycombPrefab, tileSelectionTileMap.CellToWorld(new Vector3Int(6, 2, 0)), Quaternion.identity,
             availableHoneycombContainer);
         newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
@@ -50,12 +51,14 @@ public class TileController : MonoBehaviour
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int position = grid.WorldToCell(mouseWorldPos);
 
+            // check if a free space on the play area was clicked and if a honeycomb is selected
             if (backgroundTileMap.HasTile(position) == true)
             {
                 if (playAreaTileMap.HasTile(position) == false)
                 {
                     if (selectedHoneycomb != null)
                     {
+                        // place the selected honeycomb
                         playAreaTileMap.SetTile(position, playAreaTile);
                         GameObject newHoneycomb = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(position),
                             Quaternion.identity, honeycombContainer);
@@ -65,6 +68,7 @@ public class TileController : MonoBehaviour
                             item.GetComponent<Honeycomb>().GetConnectedHoneycombs(honeycombContainer, playAreaTileMap, playAreaTileMap.WorldToCell(item.position));
                         }
                         
+                        // get new randomized honeycomb and deselect it
                         selectedHoneycomb.RandomizeWalls();
                         selectedHoneycomb.Deselect();
                         selectedHoneycomb = null;
@@ -72,6 +76,7 @@ public class TileController : MonoBehaviour
                 }
             }
 
+            // check if a honeycomb from the selection is clicked and set the selected honeycomb
             if (tileSelectionTileMap.HasTile(position) == true)
             {
                 foreach (Transform item in availableHoneycombContainer)
