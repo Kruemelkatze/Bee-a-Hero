@@ -18,7 +18,9 @@ public class Honeycomb : MonoBehaviour
     
     public int number;
     
-    private bool[] walls;
+    private bool[] walls = new bool[6];
+    private bool[] doors = new bool[6];
+    private bool[] blocked = new bool[6];
     private Honeycomb[] connectedHoneycombs;
     
     private Vector3Int[] yEvenOffsets = new[]
@@ -67,7 +69,7 @@ public class Honeycomb : MonoBehaviour
     public bool IsSideOpen(int side)
     {
         // R, TR, TL, L, BL, BR
-        return !walls[side];
+        return !walls[side] && !blocked[side];
     }
 
     public bool IsOppositeSideOpen(int side) => IsSideOpen((side + 3) % 6);
@@ -104,7 +106,23 @@ public class Honeycomb : MonoBehaviour
     public void SetDoors(Honeycomb[] honeyCombs)
     {
         // Walls and connected tiles are already set
-        // TODO
+        // Set doors to position where no wall is present and no connected tile is set
+        for (int i = 0; i < doors.Length; i++)
+        {
+            doors[i] = IsSideOpen(i) && !connectedHoneycombs[i];
+            doorSprites.GetChild(i).gameObject.SetActive(doors[i]);
+        }
+        
+        UpdateWalls();
+    }
+
+    public void UpdateWalls()
+    {
+        for (int i = 0; i < doors.Length; i++)
+        {
+            walls[i] = !doors[i] && !IsSideOpen(i);
+            wallSprites.GetChild(i).gameObject.SetActive(walls[i]);
+        }
     }
 
     // Get walls configuration
@@ -127,7 +145,6 @@ public class Honeycomb : MonoBehaviour
     public void FindConnectedHoneycombs(Honeycomb[] honeyCombs, Tilemap playAreaTileMap, Vector3Int position)
     {
         // Walls are already set
-        
         connectedHoneycombs = new Honeycomb[6];
 
         var yEven = position.y % 2 == 0;
@@ -145,14 +162,28 @@ public class Honeycomb : MonoBehaviour
             Vector3 worldPosition = playAreaTileMap.CellToWorld(checkedPosition);
             foreach (Honeycomb item in honeyCombs)
             {
-                if ( Vector3.Distance(item.transform.position,worldPosition) < 0.1f && connectedHoneycombs[i].IsOppositeSideOpen(i))
+                if ( Vector3.Distance(item.transform.position,worldPosition) < 0.1f)
                 {
-                    connectedHoneycombs[i] = item;
+                    var oppositeSideOpen = item.IsOppositeSideOpen(i);
+                    blocked[i] = !oppositeSideOpen;
+                    if (oppositeSideOpen)
+                    {
+                        connectedHoneycombs[i] = item;
+                    }
                 }
             }
         }
+    }
 
-        Debug.Log("Calc "+ position);
+    public void SetOutsideBounds(Tilemap bgTileMap, Vector3Int position)
+    {
+        var yEven = position.y % 2 == 0;
+        // set offsets for counterclockwise checking of the honeycombs
+        Vector3Int[] offsets = yEven ? yEvenOffsets : yUnevenOffsets;
+        for (int i = 0; i < offsets.Length; i++)
+        {
+            blocked[i] = bgTileMap.GetTile(position + offsets[i]) == null;
+        }
     }
 
     /* ======================================================================================================================== */

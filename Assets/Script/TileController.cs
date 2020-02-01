@@ -52,7 +52,7 @@ public class TileController : MonoBehaviour
 
     private void OnGUI()
     {
-        //PrintTiles();
+        PrintTiles();
     }
 
     // Update is called once per frame
@@ -86,6 +86,7 @@ public class TileController : MonoBehaviour
                         hc.number = creationCounter;
                         newHoneycomb.name = "HoneyComb " + hc.number;
                         hc.SetWalls(selectedHoneycomb);
+                        hc.SetOutsideBounds(backgroundTileMap, position);
 
                         var honeyCombs = honeycombContainer.GetComponentsInChildren<Honeycomb>();
                         foreach (Honeycomb item in honeyCombs)
@@ -93,7 +94,6 @@ public class TileController : MonoBehaviour
                             var itemHC = item.GetComponent<Honeycomb>();
                             itemHC.FindConnectedHoneycombs(honeyCombs, playAreaTileMap, playAreaTileMap.WorldToCell(item.transform.position));
                             itemHC.SetDoors(honeyCombs);
-                            
                         }
                         
                         // get new randomized honeycomb and deselect it
