@@ -10,11 +10,15 @@ public class TileController : MonoBehaviour
     /* ======================================================================================================================== */
 
     [SerializeField] private Grid grid;
-    [SerializeField] private Tilemap backgroundTilemap;
-    [SerializeField] private Tilemap playAreaTilemap;
-    [SerializeField] private Tilemap tileSelectionTilemap;
+    [SerializeField] private Tile playAreaTile;
+    [SerializeField] private Tilemap backgroundTileMap;
+    [SerializeField] private Tilemap playAreaTileMap;
+    [SerializeField] private Tilemap tileSelectionTileMap;
+    [SerializeField] private GameObject honeycombPrefab;
+    [SerializeField] private Transform honeycombContainer;
+    [SerializeField] private Transform availableHoneycombContainer;
     
-    private TileBase selectedTile;
+    private Honeycomb selectedHoneycomb;
     
     /* ======================================================================================================================== */
     /* UNITY CALLBACKS                                                                                                          */
@@ -23,7 +27,19 @@ public class TileController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        selectedTile = tileSelectionTilemap.GetTile(new Vector3Int(6, 2, 0));
+        GameObject newSelectionHoneycomb = Instantiate(honeycombPrefab, tileSelectionTileMap.CellToWorld(new Vector3Int(6, 2, 0)), Quaternion.identity,
+            availableHoneycombContainer);
+        newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
+        
+        newSelectionHoneycomb = Instantiate(honeycombPrefab, tileSelectionTileMap.CellToWorld(new Vector3Int(6, 0, 0)), Quaternion.identity,
+            availableHoneycombContainer);
+        newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
+        
+        newSelectionHoneycomb = Instantiate(honeycombPrefab, tileSelectionTileMap.CellToWorld(new Vector3Int(6, -2, 0)), Quaternion.identity,
+            availableHoneycombContainer);
+        newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
+
+        selectedHoneycomb = null;
     }
 
     // Update is called once per frame
@@ -34,17 +50,33 @@ public class TileController : MonoBehaviour
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int position = grid.WorldToCell(mouseWorldPos);
 
-            if (backgroundTilemap.HasTile(position) == true)
+            if (backgroundTileMap.HasTile(position) == true)
             {
-                if (playAreaTilemap.HasTile(position) == false)
+                if (playAreaTileMap.HasTile(position) == false)
                 {
-                    playAreaTilemap.SetTile(position, selectedTile);
+                    if (selectedHoneycomb != null)
+                    {
+                        playAreaTileMap.SetTile(position, playAreaTile);
+                        GameObject newHoneycomb = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(position),
+                            Quaternion.identity, honeycombContainer);
+                        newHoneycomb.GetComponent<Honeycomb>().SetWalls(selectedHoneycomb);
+                        foreach (Transform item in honeycombContainer)
+                        {
+                            item.GetComponent<Honeycomb>().GetConnectedHoneycombs(honeycombContainer, playAreaTileMap, playAreaTileMap.WorldToCell(item.position));
+                        }
+                    }
                 }
             }
 
-            if (tileSelectionTilemap.HasTile(position) == true)
+            if (tileSelectionTileMap.HasTile(position) == true)
             {
-                selectedTile = tileSelectionTilemap.GetTile(position);
+                foreach (Transform item in availableHoneycombContainer)
+                {
+                    if (item.position == tileSelectionTileMap.CellToWorld(position) == true)
+                    {
+                        selectedHoneycomb = item.GetComponent<Honeycomb>();
+                    }
+                }
             }
         }
     }
