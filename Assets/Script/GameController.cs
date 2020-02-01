@@ -74,6 +74,17 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         DialogueController.Instance.StartDialogue(dialogues[currentDialogue]);
     }
+
+    private IEnumerator LevelFinishedCoroutine()
+    {
+        AudioController.Instance.TransitionToSnapshot("SilentSnapshot", 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        AudioController.Instance.PlaySound("WinSound");
+        yield return new WaitForSeconds(5f);
+        AudioController.Instance.TransitionToSnapshot("GamePlaySnapshot", 0.5f);
+        
+        //        Grid grid = Instantiate(gridPrefab, Vector3.up * 10u, Quaternion.identity, gridContainer);
+    }
     
     /* ======================================================================================================================== */
     /* PUBLIC FUNCTIONS                                                                                                         */
@@ -119,9 +130,7 @@ public class GameController : MonoBehaviour
 
     public void LevelFinished()
     {
-        AudioController.Instance.PlaySound("WinSound");
-//        Grid grid = Instantiate(gridPrefab, Vector3.up * 10u, Quaternion.identity, gridContainer);
-        
+        StartCoroutine(LevelFinishedCoroutine());
     }
 
     public void ActivateMilf()

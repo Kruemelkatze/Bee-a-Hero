@@ -131,7 +131,12 @@ PrefabInstance:
     - target: {fileID: 503421432103802220, guid: 3db675d9f52b2034fb4421e5dec64eff,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 503421432103802222, guid: 3db675d9f52b2034fb4421e5dec64eff,
+        type: 3}
+      propertyPath: navTimeStep
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2530836045099618652, guid: 3db675d9f52b2034fb4421e5dec64eff,
         type: 3}
@@ -1070,9 +1075,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseOverlay: {fileID: 1740487235}
   gameOverOverlay: {fileID: 702428371}
-  gridPrefab: {fileID: 6285610259612295242, guid: 3e8c2352350549249b70e1b1065409fe,
+  gridPrefab: {fileID: 2530836045099618653, guid: 3db675d9f52b2034fb4421e5dec64eff,
     type: 3}
-  gridContainer: {fileID: 0}
   dialogues:
   - {fileID: 11400000, guid: 4df94272b62bf624382688d23ad31d3f, type: 2}
   - {fileID: 11400000, guid: 5cf65f901f3eed84dbe2b88fd4edb313, type: 2}
