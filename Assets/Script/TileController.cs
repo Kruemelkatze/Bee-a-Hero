@@ -1,7 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 public class TileController : MonoBehaviour
 {
@@ -17,6 +22,8 @@ public class TileController : MonoBehaviour
     [SerializeField] private GameObject honeycombPrefab;
     [SerializeField] private Transform honeycombContainer;
     [SerializeField] private Transform availableHoneycombContainer;
+
+    [SerializeField] private int creationCounter = 0;
     
     private Honeycomb selectedHoneycomb;
     
@@ -43,6 +50,11 @@ public class TileController : MonoBehaviour
         selectedHoneycomb = null;
     }
 
+    private void OnGUI()
+    {
+        PrintTiles();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -58,14 +70,18 @@ public class TileController : MonoBehaviour
                 {
                     if (selectedHoneycomb != null)
                     {
+                        creationCounter++;
+                        
                         // place the selected honeycomb
                         playAreaTileMap.SetTile(position, playAreaTile);
                         GameObject newHoneycomb = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(position),
                             Quaternion.identity, honeycombContainer);
-                        newHoneycomb.GetComponent<Honeycomb>().SetWalls(selectedHoneycomb);
+                        var hc = newHoneycomb.GetComponent<Honeycomb>();
+                        hc.number = creationCounter;
+                        hc.SetWalls(selectedHoneycomb);
                         foreach (Transform item in honeycombContainer)
                         {
-                            item.GetComponent<Honeycomb>().GetConnectedHoneycombs(honeycombContainer, playAreaTileMap, playAreaTileMap.WorldToCell(item.position));
+                            item.GetComponent<Honeycomb>().FindConnectedHoneycombs(honeycombContainer, playAreaTileMap, playAreaTileMap.WorldToCell(item.position));
                         }
                         
                         // get new randomized honeycomb and deselect it
@@ -79,6 +95,11 @@ public class TileController : MonoBehaviour
             // check if a honeycomb from the selection is clicked and set the selected honeycomb
             if (tileSelectionTileMap.HasTile(position) == true)
             {
+                if (selectedHoneycomb != null)
+                {
+                    selectedHoneycomb.Deselect();
+                }
+
                 foreach (Transform item in availableHoneycombContainer)
                 {
                     if (item.position == tileSelectionTileMap.CellToWorld(position) == true)
@@ -94,7 +115,21 @@ public class TileController : MonoBehaviour
     /* ======================================================================================================================== */
     /* PRIVATE FUNCTIONS                                                                                                        */
     /* ======================================================================================================================== */
-
+    private void PrintTiles()
+    {
+        foreach (var pos in backgroundTileMap.cellBounds.allPositionsWithin)
+        {   
+            Vector3Int localPlace = new Vector3Int(pos.x, pos.y, pos.z);
+            Vector3 place = backgroundTileMap.CellToWorld(localPlace);
+            if (backgroundTileMap.HasTile(localPlace))
+            {
+#if UNITY_EDITOR
+                Handles.Label(place + new Vector3(-0.3f,0.125f,0), $"{localPlace}"); // TODO: Remove for Production
+#endif
+            }
+        }
+    }
+    
     /* ======================================================================================================================== */
     /* PUBLIC FUNCTIONS                                                                                                         */
     /* ======================================================================================================================== */
