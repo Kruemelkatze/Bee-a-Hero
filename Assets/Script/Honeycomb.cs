@@ -88,6 +88,7 @@ public class Honeycomb : MonoBehaviour
             bool hasWall = Random.Range(0f, 1f) > 0.5f;
             walls[i] = hasWall;
             wallSprites.GetChild(i).gameObject.SetActive(hasWall);
+            doorSprites.GetChild(i).gameObject.SetActive(!hasWall);
         }
     }
     
