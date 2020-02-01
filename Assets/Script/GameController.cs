@@ -146,6 +146,15 @@ public class GameController : MonoBehaviour
         bee.Navigate(path);
     }
 
+    public void BeeFinishedNavigating(Honeycomb targetTile)
+    {
+        if (targetTile == TileController.Instance.GetFinishHoneycomb())
+        {
+            Debug.Log("Finished Level");
+            LevelFinished();
+        }
+    }
+
     /* ======================================================================================================================== */
     /* EVENT CALLERS                                                                                                            */
     /* ======================================================================================================================== */

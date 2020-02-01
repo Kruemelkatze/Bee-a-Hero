@@ -10,6 +10,7 @@ public class Bee : MonoBehaviour
     public Honeycomb targetTile; // Where Bee should go
 
     [SerializeField] bool moving = false;
+    [SerializeField] Coroutine activeNavigation;
         
     public float navTimeStep = 0.5f; // [s]
     // Start is called before the first frame update
@@ -35,9 +36,14 @@ public class Bee : MonoBehaviour
     {
         if (path.Count == 0) 
             return;
-        
+
+        if (activeNavigation != null)
+        {
+            StopCoroutine(activeNavigation);
+        }
+
         targetTile = path.Last();
-        StartCoroutine(NavigateAsync(path));
+        activeNavigation = StartCoroutine(NavigateAsync(path));
     }
 
     private IEnumerator NavigateAsync(List<Honeycomb> path)
@@ -49,7 +55,8 @@ public class Bee : MonoBehaviour
         for (int i = startIndex; i < path.Count; i++)
         {
             var current = path[i];
-            yield return new WaitForSeconds(navTimeStep);
+            yield return new WaitForSeconds(navTimeStep); 
+            // TODO: When smoothly navigating and we stop the coroutine, when should we set the currentTile?
             currentTile = current;
             transform.position = current.transform.position;
         }
@@ -57,5 +64,6 @@ public class Bee : MonoBehaviour
         originTile = targetTile;
         targetTile = null;
         moving = false;
+        GameController.Instance.BeeFinishedNavigating(originTile);
     }
 }
