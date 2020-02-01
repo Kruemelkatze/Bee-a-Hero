@@ -75,7 +75,7 @@ public class TileController : MonoBehaviour
     
     private void OnGUI()
     {
-        PrintTiles();
+        //PrintTiles();
     }
 
     // Update is called once per frame
