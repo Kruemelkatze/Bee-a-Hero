@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FTG.AudioController;
+using UnityEditor;
 using UnityEngine;
 
 public class Bee : MonoBehaviour
@@ -74,5 +75,28 @@ public class Bee : MonoBehaviour
         AudioController.Instance.TransitionToSnapshot("SoundSnapshot", 0.3f);
         yield return new WaitForSeconds(0.3f);
         AudioController.Instance.StopSound("BeeLoopSound");
+    }
+    
+    
+    [CustomEditor(typeof(Bee))]
+    public class BeeEditor : Editor
+    {
+
+        public bool IsAnyOpen = true;
+        
+        public override void OnInspectorGUI()
+        {
+            var bee = target as Bee;
+            DrawDefaultInspector();
+            
+            if (GUILayout.Button("Check Connected Tiles"))
+            {
+                var flood = PathfinderBeemaker.GetAllConnectedTiles(bee.currentTile);
+                IsAnyOpen = flood.Any(t => t.HasAnyDoor());
+
+                Debug.Log(string.Join(",",flood.Select(x => x.number)));
+                Debug.Log(IsAnyOpen);
+            }
+        }
     }
 }
