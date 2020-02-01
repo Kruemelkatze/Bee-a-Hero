@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 
 public class Bee : MonoBehaviour
@@ -65,5 +66,28 @@ public class Bee : MonoBehaviour
         targetTile = null;
         moving = false;
         GameController.Instance.BeeFinishedNavigating(originTile);
+    }
+    
+    
+    [CustomEditor(typeof(Bee))]
+    public class BeeEditor : Editor
+    {
+
+        public bool IsAnyOpen = true;
+        
+        public override void OnInspectorGUI()
+        {
+            var bee = target as Bee;
+            DrawDefaultInspector();
+            
+            if (GUILayout.Button("Check Connected Tiles"))
+            {
+                var flood = PathfinderBeemaker.GetAllConnectedTiles(bee.currentTile);
+                IsAnyOpen = flood.Any(t => t.HasAnyDoor());
+
+                Debug.Log(string.Join(",",flood.Select(x => x.number)));
+                Debug.Log(IsAnyOpen);
+            }
+        }
     }
 }

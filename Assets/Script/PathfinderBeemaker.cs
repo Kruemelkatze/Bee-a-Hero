@@ -64,4 +64,27 @@ public class PathfinderBeemaker
         path.Reverse();
         return path;
     }
+
+    public static HashSet<Honeycomb> GetAllConnectedTiles(Honeycomb start)
+    {
+        var discovered = new HashSet<Honeycomb>();
+        
+        var queue = new Queue<Honeycomb>();
+        queue.Enqueue(start);
+
+        while (queue.Count > 0)
+        {
+            var tile = queue.Dequeue();
+            discovered.Add(tile);
+            foreach (var connected in tile.GetConnectedHoneycombs())
+            {
+                if (connected != null && !discovered.Contains(connected))
+                {
+                    queue.Enqueue(connected);
+                }
+            }
+        }
+
+        return discovered;
+    }
 }

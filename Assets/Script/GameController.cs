@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using FTG.AudioController;
 using UnityEngine;
 
@@ -74,6 +75,16 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1f);
         DialogueController.Instance.StartDialogue(dialogues[currentDialogue]);
     }
+
+    private void CheckNoOptionLeft()
+    {
+        var flood = PathfinderBeemaker.GetAllConnectedTiles(bee.currentTile);
+        var isAnyOpen = flood.Any(t => t.HasAnyDoor());
+        if (!isAnyOpen)
+        {
+            GameOver();
+        }
+    }
     
     /* ======================================================================================================================== */
     /* PUBLIC FUNCTIONS                                                                                                         */
@@ -143,6 +154,13 @@ public class GameController : MonoBehaviour
             // No Path to finish found, get to target tile
             path = PathfinderBeemaker.FindPath(bee.currentTile, tile);
         }
+
+        // No path to target found. Be will not move. Check losing condition
+        if (path.Count == 0)
+        {
+            CheckNoOptionLeft();
+        }
+        
         bee.Navigate(path);
     }
 
@@ -152,6 +170,11 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Finished Level");
             LevelFinished();
+        }
+        else
+        {
+            // Be has moved to new tile. Check loosing condition.
+            CheckNoOptionLeft();
         }
     }
 

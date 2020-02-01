@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -73,6 +74,11 @@ public class Honeycomb : MonoBehaviour
     }
 
     public bool IsOppositeSideOpen(int side) => IsSideOpen((side + 3) % 6);
+
+    public bool HasAnyDoor()
+    {
+        return doors.Any(x => x);
+    }
     
     public Honeycomb[] GetConnectedHoneycombs()
     {
