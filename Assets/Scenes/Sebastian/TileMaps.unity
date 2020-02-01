@@ -297,12 +297,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grid: {fileID: 701500229}
+  playAreaTile: {fileID: 11400000, guid: dbfd6591751cc5745b5a1090a0998e32, type: 2}
   backgroundTileMap: {fileID: 460825172}
   playAreaTileMap: {fileID: 305579385}
   tileSelectionTileMap: {fileID: 1596200863}
   honeycombPrefab: {fileID: 2891912537424920860, guid: 79344914935d7cb41b36b9ac76e2d4db,
     type: 3}
-  honeyCombContainer: {fileID: 1335258346}
+  honeycombContainer: {fileID: 1335258346}
+  availableHoneycombContainer: {fileID: 1531364669}
 --- !u!4 &358287303
 Transform:
   m_ObjectHideFlags: 0

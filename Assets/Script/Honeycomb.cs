@@ -12,6 +12,7 @@ public class Honeycomb : MonoBehaviour
     /* VARIABLE DECLARATIONS                                                                                                    */
     /* ======================================================================================================================== */
 
+    [SerializeField] private GameObject selectionHighlight;
     [SerializeField] private Transform wallSprites;
     
     private bool[] walls;
@@ -23,7 +24,7 @@ public class Honeycomb : MonoBehaviour
     
     private void Start()
     {
-
+        selectionHighlight.SetActive(false);
     }
 
     private void Update()
@@ -65,6 +66,16 @@ public class Honeycomb : MonoBehaviour
     public bool[] GetWalls()
     {
         return walls;
+    }
+
+    public void Select()
+    {
+        selectionHighlight.SetActive(true);
+    }
+
+    public void Deselect()
+    {
+        selectionHighlight.SetActive(false);
     }
     
     /// <summary>

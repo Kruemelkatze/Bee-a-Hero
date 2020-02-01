@@ -64,6 +64,10 @@ public class TileController : MonoBehaviour
                         {
                             item.GetComponent<Honeycomb>().GetConnectedHoneycombs(honeycombContainer, playAreaTileMap, playAreaTileMap.WorldToCell(item.position));
                         }
+                        
+                        selectedHoneycomb.RandomizeWalls();
+                        selectedHoneycomb.Deselect();
+                        selectedHoneycomb = null;
                     }
                 }
             }
@@ -75,6 +79,7 @@ public class TileController : MonoBehaviour
                     if (item.position == tileSelectionTileMap.CellToWorld(position) == true)
                     {
                         selectedHoneycomb = item.GetComponent<Honeycomb>();
+                        selectedHoneycomb.Select();
                     }
                 }
             }
