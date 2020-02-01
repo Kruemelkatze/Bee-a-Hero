@@ -1,26 +1,44 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using FTG.AudioController;
 using UnityEngine;
 
-public class MainMenu : MonoBehaviour
+public class GameController : MonoBehaviour
 {
     /* ======================================================================================================================== */
     /* VARIABLE DECLARATIONS                                                                                                    */
     /* ======================================================================================================================== */
 
-    [SerializeField] private GameObject settingsPanel;
-        
+    public static GameController Instance;
+    
+    [SerializeField] private GameObject pauseOverlay;
+
+    public bool IsPaused { get; private set; }
+    
     /* ======================================================================================================================== */
     /* UNITY CALLBACKS                                                                                                          */
     /* ======================================================================================================================== */
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
     private void Start()
     {
-        settingsPanel.SetActive(false);
+        IsPaused = false;
+        pauseOverlay.SetActive(false);
 
-        AudioController.Instance.PlayMusic("MenuMusic", false);
-        AudioController.Instance.TransitionToSnapshot("MenuSnapshot", 0.5f);
+        AudioController.Instance.PlayMusic("GamePlayMusic", false);
+        AudioController.Instance.TransitionToSnapshot("GamePlaySnapshot", 0.5f);
     }
 
     private void Update()
@@ -36,14 +54,16 @@ public class MainMenu : MonoBehaviour
     /* PUBLIC FUNCTIONS                                                                                                         */
     /* ======================================================================================================================== */
 
-    public void OpenSettings()
+    public void PauseGame()
     {
-        settingsPanel.SetActive(true);
+        IsPaused = true;
+        pauseOverlay.SetActive(true);
     }
 
-    public void CloseSettings()
+    public void ContinueGame()
     {
-        settingsPanel.SetActive(false);
+        IsPaused = false;
+        pauseOverlay.SetActive(false);
     }
 
     /* ======================================================================================================================== */

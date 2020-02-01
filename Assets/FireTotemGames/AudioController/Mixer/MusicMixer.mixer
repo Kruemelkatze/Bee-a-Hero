@@ -6,7 +6,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MenuMusicGroup
+  m_Name: Menu
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 3b561e70b5eb0054b918cbc028192d1e
   m_Children: []
@@ -59,6 +59,7 @@ AudioMixerController:
   m_Snapshots:
   - {fileID: 24500006}
   - {fileID: 2443284951859029449}
+  - {fileID: 5144522526357113691}
   m_StartSnapshot: {fileID: 24500006}
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
@@ -74,7 +75,7 @@ AudioMixerController:
     - 84ca6acbcc162684692d4877ab3f7eef
     name: View
   m_CurrentViewIndex: 0
-  m_TargetSnapshot: {fileID: 24500006}
+  m_TargetSnapshot: {fileID: 5144522526357113691}
 --- !u!243 &24300002
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -117,7 +118,7 @@ AudioMixerSnapshotController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MenuMusicSnapshot
+  m_Name: MenuSnapshot
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 3f6e7f67993ac0d4a8115a0082281c1b
   m_FloatValues:
@@ -131,12 +132,13 @@ AudioMixerSnapshotController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GamePlayMusicSnapshot
+  m_Name: GamePlaySnapshot
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: f59c23ab153c7544eb62b62a474f462e
   m_FloatValues:
     6b0258799cf4b2344a10e99aa0314ea6: -80
     5c25b79edbc5d1f4e99cdd13beb85204: -0.037667945
+    39de57bf2b655f84389a5caf0077569e: -80
   m_TransitionOverrides: {}
 --- !u!243 &4593728834182435248
 AudioMixerGroupController:
@@ -144,7 +146,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MilfMusicGroup
+  m_Name: Milf
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 84ca6acbcc162684692d4877ab3f7eef
   m_Children: []
@@ -157,13 +159,27 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!245 &5144522526357113691
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GamePlayMilfSnapshot
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: 4c8ee245956e64a40ae4f34400858ae4
+  m_FloatValues:
+    6b0258799cf4b2344a10e99aa0314ea6: -80
+    5c25b79edbc5d1f4e99cdd13beb85204: -0.037667945
+    39de57bf2b655f84389a5caf0077569e: 0
+  m_TransitionOverrides: {}
 --- !u!243 &8611982633316204344
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GamePlayMusicGroup
+  m_Name: GamePlay
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: 4f3def43fac7af746b8dfe2946671d6b
   m_Children: []
