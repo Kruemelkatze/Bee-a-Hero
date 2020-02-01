@@ -21,6 +21,8 @@ public class MainMenu : MonoBehaviour
 
         AudioController.Instance.PlayMusic("MenuMusic", false);
         AudioController.Instance.TransitionToSnapshot("MenuSnapshot", 0.5f);
+        AudioController.Instance.StopMusic("GamePlayMusic", 1f);
+        AudioController.Instance.StopMusic("MilfMusic", 1f);
     }
 
     private void Update()

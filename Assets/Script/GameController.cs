@@ -39,6 +39,8 @@ public class GameController : MonoBehaviour
 
         AudioController.Instance.PlayMusic("GamePlayMusic", false);
         AudioController.Instance.TransitionToSnapshot("GamePlaySnapshot", 0.5f);
+        AudioController.Instance.StopMusic("MilfMusic", 1f);
+        AudioController.Instance.StopMusic("MenuMusic", 1f);
     }
 
     private void Update()
