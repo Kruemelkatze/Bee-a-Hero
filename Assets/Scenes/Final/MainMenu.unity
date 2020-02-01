@@ -2040,6 +2040,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SettingsPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 3233265418761947296, guid: 478ec3ff395c8d440bf197f45d0c8d3a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3233265418761947297, guid: 478ec3ff395c8d440bf197f45d0c8d3a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2148,22 +2153,22 @@ PrefabInstance:
     - target: {fileID: 3233265419221496913, guid: 478ec3ff395c8d440bf197f45d0c8d3a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3233265419424280415, guid: 478ec3ff395c8d440bf197f45d0c8d3a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3233265419747480378, guid: 478ec3ff395c8d440bf197f45d0c8d3a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3233265420466195131, guid: 478ec3ff395c8d440bf197f45d0c8d3a,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 478ec3ff395c8d440bf197f45d0c8d3a, type: 3}
