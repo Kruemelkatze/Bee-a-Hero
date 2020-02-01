@@ -79,7 +79,8 @@ public class TileController : MonoBehaviour
     {
         if ((GameController.Instance.IsPaused == true) ||
             (GameController.Instance.IsRunning == false) ||
-            (GameController.Instance.IsGameOver == true))
+            (GameController.Instance.IsGameOver == true) ||
+            (GameController.Instance.IsFinished == true))
         {
             return;
         }
