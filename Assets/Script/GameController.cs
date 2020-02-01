@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using FTG.AudioController;
 using UnityEngine;
 
@@ -14,10 +15,11 @@ public class GameController : MonoBehaviour
     
     [SerializeField] private GameObject pauseOverlay;
     [SerializeField] private GameObject gameOverOverlay;
-    [SerializeField] private Grid gridPrefab;
-        
+    [SerializeField] private Transform levelPrefab;
+    [SerializeField] private Transform levitatingObjects;
+    [SerializeField] private TileController tileController;
+    [SerializeField] private float transitionTime = 3f;
     [SerializeField] private Dialogue[] dialogues;
-    
     [SerializeField] private Bee bee;
     
     public bool IsPaused { get; private set; }
@@ -84,8 +86,22 @@ public class GameController : MonoBehaviour
         AudioController.Instance.PlaySound("WinSound");
         yield return new WaitForSeconds(5f);
         AudioController.Instance.TransitionToSnapshot("GamePlaySnapshot", 0.5f);
+
+        Transform oldLevel = tileController.GetLevel();
+        Transform newLevel = Instantiate(levelPrefab, Vector3.up * 10u, Quaternion.identity, levitatingObjects);
+
+        tileController.SetLevel(newLevel);
+        tileController.Setup();
         
-        //        Grid grid = Instantiate(gridPrefab, Vector3.up * 10u, Quaternion.identity, gridContainer);
+        oldLevel.DOMoveY(-10f, transitionTime);
+        newLevel.DOMoveY(0f, transitionTime);
+
+        yield return new WaitForSeconds(transitionTime);
+
+        bee = newLevel.transform.Find("Bee").GetComponent<Bee>();
+        Destroy(oldLevel.gameObject);
+
+        IsFinished = false;
     }
     
     /* ======================================================================================================================== */
@@ -132,6 +148,12 @@ public class GameController : MonoBehaviour
 
     public void LevelFinished()
     {
+        if (IsFinished == true)
+        {
+            return;
+        }
+        
+        IsFinished = true;
         StartCoroutine(LevelFinishedCoroutine());
     }
 
@@ -166,8 +188,6 @@ public class GameController : MonoBehaviour
         
         if (targetTile == TileController.Instance.GetFinishHoneycomb())
         {
-            IsFinished = true;
-            Debug.Log("Finished Level");
             LevelFinished();
         }
     }

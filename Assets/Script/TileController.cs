@@ -26,6 +26,7 @@ public class TileController : MonoBehaviour
     [SerializeField] private GameObject honeycombPrefab;
     [SerializeField] private Transform honeycombContainer;
     [SerializeField] private Transform availableHoneycombContainer;
+    [SerializeField] private Transform level;
 
     [SerializeField] private int creationCounter = 0;
     
@@ -51,21 +52,6 @@ public class TileController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // randomize selection honeycombs
-        GameObject newSelectionHoneycomb = Instantiate(honeycombPrefab, tileSelectionTileMap.CellToWorld(new Vector3Int(6, 2, 0)), Quaternion.identity,
-            availableHoneycombContainer);
-        newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
-        
-        newSelectionHoneycomb = Instantiate(honeycombPrefab, tileSelectionTileMap.CellToWorld(new Vector3Int(6, 0, 0)), Quaternion.identity,
-            availableHoneycombContainer);
-        newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
-        
-        newSelectionHoneycomb = Instantiate(honeycombPrefab, tileSelectionTileMap.CellToWorld(new Vector3Int(6, -2, 0)), Quaternion.identity,
-            availableHoneycombContainer);
-        newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
-
-        selectedHoneycomb = null;
-        
         Setup();
     }
     
@@ -161,27 +147,7 @@ public class TileController : MonoBehaviour
     /* ======================================================================================================================== */
     /* PRIVATE FUNCTIONS                                                                                                        */
     /* ======================================================================================================================== */
-    
-    // Play Start and Finish Tiles
-    private void Setup()
-    {
-        var startGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, -4, 0)), Quaternion.identity, honeycombContainer);
-        startGO.name = "Start";
-        startHoneycomb = startGO.GetComponent<Honeycomb>();
-        startHoneycomb.SetStartWalls();
-        startHoneycomb.SetDoors();
-        startHoneycomb.UpdateWalls();
-        
-        GameController.Instance.StartTilePlaced(startHoneycomb);
-        
-        var finishGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, 4, 0)), Quaternion.identity, honeycombContainer);
-        finishGO.name = "End";
-        finishHoneycomb = finishGO.GetComponent<Honeycomb>();
-        finishHoneycomb.SetFinishWalls();
-        finishHoneycomb.SetDoors();
-        finishHoneycomb.UpdateWalls();
-    }
-    
+
     private void PrintTiles()
     {
         foreach (var pos in backgroundTileMap.cellBounds.allPositionsWithin)
@@ -201,9 +167,56 @@ public class TileController : MonoBehaviour
     /* PUBLIC FUNCTIONS                                                                                                         */
     /* ======================================================================================================================== */
 
-    public void SetGrid(Grid newGrid)
+    // Play Start and Finish Tiles
+    public void Setup()
     {
-        grid = newGrid;
+        // randomize selection honeycombs
+        GameObject newSelectionHoneycomb = Instantiate(honeycombPrefab, tileSelectionTileMap.CellToWorld(new Vector3Int(6, 2, 0)), Quaternion.identity,
+            availableHoneycombContainer);
+        newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
+        
+        newSelectionHoneycomb = Instantiate(honeycombPrefab, tileSelectionTileMap.CellToWorld(new Vector3Int(6, 0, 0)), Quaternion.identity,
+            availableHoneycombContainer);
+        newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
+        
+        newSelectionHoneycomb = Instantiate(honeycombPrefab, tileSelectionTileMap.CellToWorld(new Vector3Int(6, -2, 0)), Quaternion.identity,
+            availableHoneycombContainer);
+        newSelectionHoneycomb.GetComponent<Honeycomb>().RandomizeWalls();
+
+        selectedHoneycomb = null;
+        
+        var startGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, -4, 0)), Quaternion.identity, honeycombContainer);
+        startGO.name = "Start";
+        startHoneycomb = startGO.GetComponent<Honeycomb>();
+        startHoneycomb.SetStartWalls();
+        startHoneycomb.SetDoors();
+        startHoneycomb.UpdateWalls();
+        
+        GameController.Instance.StartTilePlaced(startHoneycomb);
+        
+        var finishGO = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(new Vector3Int(0, 4, 0)), Quaternion.identity, honeycombContainer);
+        finishGO.name = "End";
+        finishHoneycomb = finishGO.GetComponent<Honeycomb>();
+        finishHoneycomb.SetFinishWalls();
+        finishHoneycomb.SetDoors();
+        finishHoneycomb.UpdateWalls();
+    }
+    
+    public void SetLevel(Transform newLevel)
+    {
+        level = newLevel;
+
+        grid = level.Find("Grid").GetComponent<Grid>();
+        backgroundTileMap = level.Find("Grid").Find("Background").GetComponent<Tilemap>();
+        playAreaTileMap = level.Find("Grid").Find("PlayArea").GetComponent<Tilemap>();
+        tileSelectionTileMap = level.Find("Grid").Find("TileSelection").GetComponent<Tilemap>();
+        honeycombContainer = level.Find("HoneycombContainer");
+        availableHoneycombContainer = level.Find("AvailableHoneycombContainer");
+    }
+
+    public Transform GetLevel()
+    {
+        return level;
     }
     
     public Honeycomb GetFinishHoneycomb()

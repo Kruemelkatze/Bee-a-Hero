@@ -14,6 +14,7 @@ public class Bee : MonoBehaviour
     [SerializeField] Coroutine activeNavigation;
         
     public float navTimeStep = 0.5f; // [s]
+    
     // Start is called before the first frame update
     void Start()
     {
