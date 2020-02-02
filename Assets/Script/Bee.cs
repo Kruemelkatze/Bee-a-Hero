@@ -82,12 +82,6 @@ public class Bee : MonoBehaviour
             transform.DOLocalMove(current.transform.position, 1 / movementSpeed);
             yield return new WaitForSeconds(1 / movementSpeed);
         }
-
-        originTile = targetTile;
-        targetTile = null;
-        moving = false;
-        GameController.Instance.BeeFinishedNavigating(originTile);
-        
         
         beeGfx.DOLocalMoveY(graphicsYOffset, hoverTime);
         shadowGfx.DOScale(Vector3.one, hoverTime);
@@ -95,6 +89,11 @@ public class Bee : MonoBehaviour
         yield return new WaitForSeconds(hoverTime);
 
         AudioController.Instance.StopSound("BeeLoopSound");
+
+        originTile = targetTile;
+        targetTile = null;
+        moving = false;
+        GameController.Instance.BeeFinishedNavigating(originTile);
     }
     
     

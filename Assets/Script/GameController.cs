@@ -22,7 +22,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private float transitionTime = 3f;
     [SerializeField] private Dialogue[] dialogues;
     [SerializeField] private Bee bee;
-    
+    [SerializeField] private Transform rocket;
+        
     public bool IsPaused { get; private set; }
     public bool IsRunning { get; private set; }
     public bool IsGameOver { get; private set; }
@@ -107,10 +108,15 @@ public class GameController : MonoBehaviour
 
     private IEnumerator LevelFinishedCoroutine()
     {
+        bee.gameObject.SetActive(false);
         AudioController.Instance.TransitionToSnapshot("SilentSnapshot", 0.5f);
         yield return new WaitForSeconds(0.5f);
         AudioController.Instance.PlaySound("WinSound");
         yield return new WaitForSeconds(1.5f);
+
+        rocket.GetComponent<SpriteRenderer>().sortingOrder = 100;
+        rocket.DOLocalMoveY(20f, 5f);
+        rocket.DOScale(3f, 5f);
 
         Transform oldLevel = tileController.GetLevel();
         Transform newLevel = Instantiate(levelPrefab, Vector3.up * 10u, Quaternion.identity, levitatingObjects);
@@ -124,10 +130,10 @@ public class GameController : MonoBehaviour
         newLevel.DOMoveY(0f, transitionTime);
 
         yield return new WaitForSeconds(transitionTime);
-//        yield return new WaitForSeconds(2f);
         AudioController.Instance.TransitionToSnapshot("GamePlaySnapshot", 0.5f);
 
         Destroy(oldLevel.gameObject);
+        rocket = newLevel.transform.Find("Rocket");
 
         IsFinished = false;
     }

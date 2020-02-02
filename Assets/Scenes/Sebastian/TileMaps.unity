@@ -1134,6 +1134,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 62de88308f9425f4cb886c3e1963d0da, type: 2}
   - {fileID: 11400000, guid: a48ad8e53f1df5942ad123a35da809eb, type: 2}
   bee: {fileID: 9156699519966799564}
+  rocket: {fileID: 700489820}
 --- !u!4 &219041549
 Transform:
   m_ObjectHideFlags: 0
@@ -2825,6 +2826,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 670686017}
   m_CullTransparentMesh: 0
+--- !u!4 &700489820 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6167467398639080074, guid: 400b4b822d8421546aadd8d99ff19740,
+    type: 3}
+  m_PrefabInstance: {fileID: 9156699519966799563}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &702428371
 GameObject:
   m_ObjectHideFlags: 0
@@ -4724,31 +4731,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 151579840}
     m_Modifications:
-    - target: {fileID: 7687784747379067330, guid: 400b4b822d8421546aadd8d99ff19740,
-        type: 3}
-      propertyPath: hoverOffset
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687784747379067330, guid: 400b4b822d8421546aadd8d99ff19740,
-        type: 3}
-      propertyPath: movementSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687784747379067330, guid: 400b4b822d8421546aadd8d99ff19740,
-        type: 3}
-      propertyPath: shadowHoverScale
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687784747379067330, guid: 400b4b822d8421546aadd8d99ff19740,
-        type: 3}
-      propertyPath: hoverTime
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7687784747379067330, guid: 400b4b822d8421546aadd8d99ff19740,
-        type: 3}
-      propertyPath: minPathLengthForSound
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 9156699519654821593, guid: 400b4b822d8421546aadd8d99ff19740,
         type: 3}
       propertyPath: m_LocalPosition.x
