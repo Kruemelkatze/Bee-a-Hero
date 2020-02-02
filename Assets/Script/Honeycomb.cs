@@ -50,7 +50,10 @@ public class Honeycomb : MonoBehaviour
     
     private void Start()
     {
-        selectionHighlight.SetActive(false);
+        if (selectionHighlight != null)
+        {
+            selectionHighlight.SetActive(false);
+        }
     }
 
     private void Update()

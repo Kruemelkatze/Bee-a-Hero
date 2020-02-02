@@ -32,6 +32,7 @@ public class TileController : MonoBehaviour
     [SerializeField] private Transform placementEffectPrefab;
     
     [SerializeField] private int creationCounter = 0;
+    [SerializeField] private int corruptedCounter = 0;
 
     private Honeycomb selectedHoneycomb;
     private Honeycomb startHoneycomb;
@@ -102,30 +103,7 @@ public class TileController : MonoBehaviour
                 {
                     if (selectedHoneycomb != null)
                     {
-                        AudioController.Instance.PlaySound("PlacementSound");
-                        
-                        creationCounter++;
-                        
-                        // place the selected honeycomb
-                        playAreaTileMap.SetTile(position, playAreaTile);
-                        GameObject newHoneycomb = Instantiate(honeycombPrefab, playAreaTileMap.CellToWorld(position),
-                            Quaternion.identity, honeycombContainer);
-                        var hc = newHoneycomb.GetComponent<Honeycomb>();
-                        hc.number = creationCounter;
-                        newHoneycomb.name = "HoneyComb " + hc.number;
-                        hc.SetWalls(selectedHoneycomb);
-                        hc.SetOutsideBounds(backgroundTileMap, position);
-                        
-                        Instantiate(placementEffectPrefab, playAreaTileMap.CellToWorld(position) - Vector3.up * 0.17f,
-                            Quaternion.identity, honeycombContainer);
-
-                        var honeyCombs = honeycombContainer.GetComponentsInChildren<Honeycomb>();
-                        foreach (Honeycomb item in honeyCombs)
-                        {
-                            var itemHC = item.GetComponent<Honeycomb>();
-                            itemHC.FindConnectedHoneycombs(honeyCombs, playAreaTileMap, playAreaTileMap.WorldToCell(item.transform.position));
-                            itemHC.SetDoors();
-                        }
+                        var hc = PlaceTile(position, false);
                         
                         // get new randomized honeycomb and deselect it
                         selectedHoneycomb.InitWalls(GetRandomEdgeDefinition());
@@ -166,9 +144,61 @@ public class TileController : MonoBehaviour
         }
     }
 
+    private Honeycomb PlaceTile(Vector3Int position, bool isCorrupted)
+    {
+        GameObject prefab;
+        if (isCorrupted)
+        {
+            corruptedCounter++;
+            prefab = corruptedPrefab;
+        }
+        else
+        {
+            creationCounter++;
+            prefab = honeycombPrefab;
+        }
+        
+        AudioController.Instance.PlaySound("PlacementSound");
+
+        // place the selected honeycomb
+        playAreaTileMap.SetTile(position, playAreaTile);
+        
+        GameObject newHoneycomb = Instantiate(prefab, playAreaTileMap.CellToWorld(position), Quaternion.identity, honeycombContainer);
+        
+        var hc = newHoneycomb.GetComponent<Honeycomb>();
+        if (isCorrupted)
+        {
+            hc.number = -corruptedCounter;
+            newHoneycomb.name = "Corrupted " + corruptedCounter;
+            // Walls are defined by prefab
+        }
+        else
+        {
+            hc.number = creationCounter;
+            newHoneycomb.name = "HoneyComb " + hc.number; 
+            hc.SetWalls(selectedHoneycomb);
+        }
+
+        hc.SetOutsideBounds(backgroundTileMap, position);
+                        
+        Instantiate(placementEffectPrefab, playAreaTileMap.CellToWorld(position) - Vector3.up * 0.17f,
+            Quaternion.identity, honeycombContainer);
+
+        var honeyCombs = honeycombContainer.GetComponentsInChildren<Honeycomb>();
+        foreach (Honeycomb item in honeyCombs)
+        {
+            var itemHC = item.GetComponent<Honeycomb>();
+            itemHC.FindConnectedHoneycombs(honeyCombs, playAreaTileMap, playAreaTileMap.WorldToCell(item.transform.position));
+            itemHC.SetDoors();
+        }
+
+        GameController.Instance.TilePlaced(hc);
+
+        return hc;
+    }
+
     private void OnValidate()
     {
-        Debug.Log("Validating");
         var pSum = p0 + p1 + p2 + p3 + p4 + p5 + p6;
         if (pSum == 0)
         {
@@ -367,11 +397,21 @@ public class TileController : MonoBehaviour
         return def;
     }
 
-    public Honeycomb SpawnCorrupted()
+    public Honeycomb SpawnCorrupted(Vector3Int? pos = null)
     {
-        return null;
+        pos = pos ?? GetFreeTilePosition();
+
+        var c = PlaceTile(pos.Value, true);
+        return c;
     }
-    
+
+    public Vector3Int GetFreeTilePosition()
+    {
+        var free = GetFreeTilePositions();
+        var pos = Random.Range(0, free.Count - 1);
+        return free[pos];
+    }
+
     /* ======================================================================================================================== */
     /* EVENT CALLERS                                                                                                            */
     /* ======================================================================================================================== */
