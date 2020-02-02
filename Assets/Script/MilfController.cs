@@ -132,7 +132,7 @@ public class MilfController : MonoBehaviour
         }
     }
     
-    
+#if UNITY_EDITOR    
     [CustomEditor(typeof(MilfController))]
     public class MilfControllerEditor : Editor
     {
@@ -160,4 +160,5 @@ public class MilfController : MonoBehaviour
             }
         }
     }
+#endif    
 }

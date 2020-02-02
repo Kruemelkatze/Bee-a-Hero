@@ -415,6 +415,7 @@ public class TileController : MonoBehaviour
     /* EVENT LISTENERS                                                                                                          */
     /* ======================================================================================================================== */
     
+#if UNITY_EDITOR
     [CustomEditor(typeof(TileController))]
     public class TileControllerEditor : Editor
     {
@@ -422,7 +423,7 @@ public class TileController : MonoBehaviour
         {
             var tileController = target as TileController;
             DrawDefaultInspector();
-            
+
             if (GUILayout.Button("Get Weighted Entry"))
             {
                 var count = tileController.GetWeightedRandomOpeningCount();
@@ -432,4 +433,5 @@ public class TileController : MonoBehaviour
             }
         }
     }
+#endif    
 }

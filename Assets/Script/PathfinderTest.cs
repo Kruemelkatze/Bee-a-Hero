@@ -9,7 +9,7 @@ public class PathfinderTest : MonoBehaviour
     public Honeycomb from;
     public Honeycomb to;
     
-    
+#if UNITY_EDITOR
     [CustomEditor(typeof(PathfinderTest))]
     public class PathfinderBeemakerEditor : Editor
     {
@@ -38,4 +38,5 @@ public class PathfinderTest : MonoBehaviour
             }
         }
     }
+#endif
 }
