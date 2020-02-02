@@ -112,6 +112,7 @@ public class TileController : MonoBehaviour
 
                         GameController.Instance.TilePlaced(hc);
                         MilfController.Instance.IncreaseMilfCounter();
+                        ScoreController.Instance.IncrementTilesUsed();
                     }
                 }
             }
@@ -351,10 +352,6 @@ public class TileController : MonoBehaviour
         return tiles;
     }
     
-    /* ======================================================================================================================== */
-    /* PUBLIC FUNCTIONS                                                                                                         */
-    /* ======================================================================================================================== */
-
     public Transform GetLevel()
     {
         return level;
