@@ -68,6 +68,11 @@ public class ScoreController : MonoBehaviour
         levelsFinishedText.text = levelsFinished.ToString();
         tilesUsedText.text = tilesUsed.ToString();
     }
+
+    public int GetLevelsFinished()
+    {
+        return levelsFinished;
+    }
     
     /* ======================================================================================================================== */
     /* EVENT CALLERS                                                                                                            */

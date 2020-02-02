@@ -34,13 +34,19 @@ public class MilfController : MonoBehaviour
         Setup();
     }
 
-    public void Setup()
+    public void Setup(int additionalMites = 0)
     {
         spawnedMilfs.Clear();
         freeCorrupted.Clear();
         
         milfCounter = 0;
         UpdateMilfIndicator();
+
+        for (int i = 0; i < additionalMites; i++)
+        {
+            PlaceMilf();
+        }
+        
         PrepareMilfPlacement();
     }
 
