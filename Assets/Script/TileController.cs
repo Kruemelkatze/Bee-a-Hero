@@ -193,8 +193,6 @@ public class TileController : MonoBehaviour
             itemHC.SetDoors();
         }
 
-        GameController.Instance.TilePlaced(hc);
-
         return hc;
     }
 

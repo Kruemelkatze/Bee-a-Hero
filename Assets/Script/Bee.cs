@@ -82,6 +82,7 @@ public class Bee : MonoBehaviour
         {
             var current = path[i];
             currentTile = current;
+            GameController.Instance.CheckMilfedBee();
             transform.DOLocalMove(current.transform.position - levitatingObjects.position, 1f / movementSpeed);
             yield return new WaitForSeconds(1f / movementSpeed);
         }

@@ -254,6 +254,17 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void CheckMilfedBee()
+    {
+        var milfed = bee.currentTile != null &&
+                     MilfController.Instance.spawnedMilfs.Any(m => m.currentTile == bee.currentTile);
+
+        if (milfed)
+        {
+            GameOver(GameOverReason.Milfed);
+        }
+    }
+
     /* ======================================================================================================================== */
     /* EVENT CALLERS                                                                                                            */
     /* ======================================================================================================================== */
@@ -266,6 +277,7 @@ public class GameController : MonoBehaviour
     {
         BeePathBlocked,
         TargetPathBlocked,
+        Milfed,
         Undefined,
     }
 }

@@ -73,6 +73,8 @@ public class MilfController : MonoBehaviour
         var milfGo = Instantiate(milfPrefab, milfContainer);
         var milf = milfGo.GetComponent<Milf>();
         milf.transform.position = tile.transform.position;
+        milf.originTile = tile;
+        milf.currentTile = tile;
         spawnedMilfs.Add(milf);
         return milf;
     }
