@@ -127,6 +127,9 @@ public class GameController : MonoBehaviour
         tileController.SetLevel(newLevel);
         tileController.Setup();
         
+        MilfController.Instance.SetLevel(newLevel);
+        MilfController.Instance.Setup();
+        
         oldLevel.DOMoveY(-10f, transitionTime);
         newLevel.DOMoveY(0f, transitionTime);
 
@@ -268,6 +271,17 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void CheckMilfedBee()
+    {
+        var milfed = bee.currentTile != null &&
+                     MilfController.Instance.spawnedMilfs.Any(m => m.currentTile == bee.currentTile);
+
+        if (milfed)
+        {
+            GameOver(GameOverReason.Milfed);
+        }
+    }
+
     /* ======================================================================================================================== */
     /* EVENT CALLERS                                                                                                            */
     /* ======================================================================================================================== */
@@ -280,6 +294,7 @@ public class GameController : MonoBehaviour
     {
         BeePathBlocked,
         TargetPathBlocked,
+        Milfed,
         Undefined,
     }
 }
