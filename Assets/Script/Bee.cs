@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using FTG.AudioController;
 using UnityEditor;
 using UnityEngine;
@@ -14,13 +15,21 @@ public class Bee : MonoBehaviour
     [SerializeField] bool moving = false;
     [SerializeField] Coroutine activeNavigation;
     [SerializeField] private int minPathLengthForSound = 3;
+
+    [Header("Animaton")]
+    [SerializeField] private float graphicsYOffset;
+    [SerializeField] private Transform beeGfx;
+    [SerializeField] private Transform shadowGfx;
+    [SerializeField] private float shadowHoverScale;
+    [SerializeField] private float hoverOffset;
+    [SerializeField] private float hoverTime;
+    [SerializeField] private float movementSpeed;
         
-    public float navTimeStep = 0.5f; // [s]
-    
     // Start is called before the first frame update
     void Start()
     {
-        
+        beeGfx.localPosition = Vector3.up * graphicsYOffset;
+        shadowGfx.localPosition = Vector3.up * graphicsYOffset;
     }
 
     // Update is called once per frame
@@ -57,18 +66,21 @@ public class Bee : MonoBehaviour
         if (path.Count >= minPathLengthForSound)
         {
             AudioController.Instance.PlaySound("BeeLoopSound");
-            AudioController.Instance.TransitionToSnapshot("BeeSnapshot", 0.3f);
         }
 
+        beeGfx.DOLocalMoveY(graphicsYOffset + hoverOffset, hoverTime);
+        shadowGfx.DOScale(Vector3.one * shadowHoverScale, hoverTime);
+        AudioController.Instance.TransitionToSnapshot("BeeSnapshot", hoverTime);
+        yield return new WaitForSeconds(hoverTime);
+        
         var startIndex = path.First() == originTile ? 1 : 0;
 
         for (int i = startIndex; i < path.Count; i++)
         {
             var current = path[i];
-            yield return new WaitForSeconds(navTimeStep);
-            // TODO: When smoothly navigating and we stop the coroutine, when should we set the currentTile?
             currentTile = current;
-            transform.position = current.transform.position;
+            transform.DOLocalMove(current.transform.position, 1 / movementSpeed);
+            yield return new WaitForSeconds(1 / movementSpeed);
         }
 
         originTile = targetTile;
@@ -76,8 +88,12 @@ public class Bee : MonoBehaviour
         moving = false;
         GameController.Instance.BeeFinishedNavigating(originTile);
         
-        AudioController.Instance.TransitionToSnapshot("SoundSnapshot", 0.3f);
-        yield return new WaitForSeconds(0.3f);
+        
+        beeGfx.DOLocalMoveY(graphicsYOffset, hoverTime);
+        shadowGfx.DOScale(Vector3.one, hoverTime);
+        AudioController.Instance.TransitionToSnapshot("SoundSnapshot", hoverTime);
+        yield return new WaitForSeconds(hoverTime);
+
         AudioController.Instance.StopSound("BeeLoopSound");
     }
     
