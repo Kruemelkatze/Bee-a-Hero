@@ -10,7 +10,12 @@ public class MainMenu : MonoBehaviour
     /* ======================================================================================================================== */
 
     [SerializeField] private GameObject settingsPanel;
-    [SerializeField] private GameObject closeSettingsButton;
+    [SerializeField] private GameObject creditsPanel;
+    [SerializeField] private GameObject settingsButton;
+    [SerializeField] private GameObject settingsButtonReplacement;
+    [SerializeField] private GameObject creditsButton;
+    [SerializeField] private GameObject creditsButtonReplacement;
+    
     [SerializeField] private GameObject exitButton;
     
     /* ======================================================================================================================== */
@@ -19,9 +24,8 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        settingsPanel.SetActive(false);
-        closeSettingsButton.SetActive(false);
-
+        ClosePanels();
+        
         AudioController.Instance.PlayMusic("MenuMusic", false);
         AudioController.Instance.TransitionToSnapshot("MenuSnapshot", 0.5f);
         AudioController.Instance.StopMusic("GamePlayMusic", 1f);
@@ -49,14 +53,33 @@ public class MainMenu : MonoBehaviour
 
     public void OpenSettings()
     {
+        ClosePanels();
+        
         settingsPanel.SetActive(true);
-        closeSettingsButton.SetActive(true);
+        settingsButton.SetActive(false);
+        settingsButtonReplacement.SetActive(true);
     }
 
-    public void CloseSettings()
+    public void OpenCredits()
+    {
+        ClosePanels();
+        
+        creditsPanel.SetActive(true);
+        creditsButton.SetActive(false);
+        creditsButtonReplacement.SetActive(true);;
+    }
+
+    public void ClosePanels()
     {
         settingsPanel.SetActive(false);
-        closeSettingsButton.SetActive(false);
+        settingsButton.SetActive(true);
+        settingsButtonReplacement.SetActive(false);
+        settingsButton.transform.localPosition = Vector3.zero;
+
+        creditsPanel.SetActive(false);
+        creditsButton.SetActive(true);
+        creditsButtonReplacement.SetActive(false);
+        creditsButton.transform.localPosition = Vector3.zero;
     }
 
     /* ======================================================================================================================== */
