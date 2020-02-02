@@ -1268,8 +1268,6 @@ MonoBehaviour:
   dialogues:
   - {fileID: 11400000, guid: 4df94272b62bf624382688d23ad31d3f, type: 2}
   - {fileID: 11400000, guid: 5cf65f901f3eed84dbe2b88fd4edb313, type: 2}
-  - {fileID: 11400000, guid: 62de88308f9425f4cb886c3e1963d0da, type: 2}
-  - {fileID: 11400000, guid: a48ad8e53f1df5942ad123a35da809eb, type: 2}
   bee: {fileID: 9156699519966799564}
   rocket: {fileID: 700489820}
   buttons:
