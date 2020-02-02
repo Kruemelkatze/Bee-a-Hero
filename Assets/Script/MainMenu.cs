@@ -10,6 +10,7 @@ public class MainMenu : MonoBehaviour
     /* ======================================================================================================================== */
 
     [SerializeField] private GameObject settingsPanel;
+    [SerializeField] private GameObject closeSettingsButton;
     [SerializeField] private GameObject exitButton;
     
     /* ======================================================================================================================== */
@@ -19,6 +20,7 @@ public class MainMenu : MonoBehaviour
     private void Start()
     {
         settingsPanel.SetActive(false);
+        closeSettingsButton.SetActive(false);
 
         AudioController.Instance.PlayMusic("MenuMusic", false);
         AudioController.Instance.TransitionToSnapshot("MenuSnapshot", 0.5f);
@@ -48,11 +50,13 @@ public class MainMenu : MonoBehaviour
     public void OpenSettings()
     {
         settingsPanel.SetActive(true);
+        closeSettingsButton.SetActive(true);
     }
 
     public void CloseSettings()
     {
         settingsPanel.SetActive(false);
+        closeSettingsButton.SetActive(false);
     }
 
     /* ======================================================================================================================== */
