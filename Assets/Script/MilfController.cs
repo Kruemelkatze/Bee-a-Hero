@@ -120,6 +120,18 @@ public class MilfController : MonoBehaviour
             walls.GetChild(i).gameObject.SetActive(milfCounter > i);
         }
     }
+
+    public void MoveMilfs(Honeycomb beeCurrentTile)
+    {
+        Debug.Log($"Moving {spawnedMilfs.Count} milfs");
+        // Bee segment
+        foreach (var milf in spawnedMilfs)
+        {
+           var path = PathfinderBeemaker.FindPath(milf.currentTile, beeCurrentTile);
+           milf.Navigate(path);
+        }
+    }
+    
     
     [CustomEditor(typeof(MilfController))]
     public class MilfControllerEditor : Editor

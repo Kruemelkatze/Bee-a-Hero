@@ -110,8 +110,7 @@ public class TileController : MonoBehaviour
                         selectedHoneycomb.Deselect();
                         selectedHoneycomb = null;
 
-                        GameController.Instance.TilePlaced(hc);
-                        MilfController.Instance.IncreaseMilfCounter();
+                        GameController.Instance.TilePlaced(hc, false);
                     }
                 }
             }
