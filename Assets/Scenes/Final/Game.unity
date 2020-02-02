@@ -1630,12 +1630,12 @@ MonoBehaviour:
   creationCounter: 0
   corruptedCounter: 0
   p0: 0
-  p1: 0.15
-  p2: 0.35
-  p3: 0.25
-  p4: 0.1
-  p5: 0.1
-  p6: 0.05
+  p1: 0.08303809
+  p2: 0.24778798
+  p3: 0.35847098
+  p4: 0.124281175
+  p5: 0.124281175
+  p6: 0.062140588
 --- !u!4 &358287303
 Transform:
   m_ObjectHideFlags: 0
