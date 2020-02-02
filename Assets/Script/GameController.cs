@@ -110,8 +110,7 @@ public class GameController : MonoBehaviour
         AudioController.Instance.TransitionToSnapshot("SilentSnapshot", 0.5f);
         yield return new WaitForSeconds(0.5f);
         AudioController.Instance.PlaySound("WinSound");
-        yield return new WaitForSeconds(5f);
-        AudioController.Instance.TransitionToSnapshot("GamePlaySnapshot", 0.5f);
+        yield return new WaitForSeconds(1.5f);
 
         Transform oldLevel = tileController.GetLevel();
         Transform newLevel = Instantiate(levelPrefab, Vector3.up * 10u, Quaternion.identity, levitatingObjects);
@@ -125,6 +124,8 @@ public class GameController : MonoBehaviour
         newLevel.DOMoveY(0f, transitionTime);
 
         yield return new WaitForSeconds(transitionTime);
+//        yield return new WaitForSeconds(2f);
+        AudioController.Instance.TransitionToSnapshot("GamePlaySnapshot", 0.5f);
 
         Destroy(oldLevel.gameObject);
 
