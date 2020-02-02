@@ -2142,6 +2142,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: DialogueController
       objectReference: {fileID: 0}
+    - target: {fileID: 419341253633425549, guid: 97f78882017d6be4483e3f752101f2b1,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419341253633425549, guid: 97f78882017d6be4483e3f752101f2b1,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419341253633425549, guid: 97f78882017d6be4483e3f752101f2b1,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419341253633425549, guid: 97f78882017d6be4483e3f752101f2b1,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1474101988337373829, guid: 97f78882017d6be4483e3f752101f2b1,
         type: 3}
       propertyPath: m_textInfo.characterCount
