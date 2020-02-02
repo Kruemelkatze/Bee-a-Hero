@@ -2881,7 +2881,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &702428372
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4895,7 +4895,7 @@ GameObject:
   - component: {fileID: 3233265420336453426}
   - component: {fileID: 3233265420336453427}
   m_Layer: 5
-  m_Name: SettingsPanel
+  m_Name: GameOverPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
