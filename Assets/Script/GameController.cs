@@ -82,7 +82,7 @@ public class GameController : MonoBehaviour
         DialogueController.Instance.StartDialogue(dialogues[currentDialogue]);
     }
 
-    private void CheckNoOptionLeft()
+    private bool CheckNoOptionLeft()
     {
         //Check if target segment is reachable
         var finishSegment = PathfinderBeemaker.GetAllConnectedTiles(TileController.Instance.GetFinishHoneycomb());
@@ -94,6 +94,7 @@ public class GameController : MonoBehaviour
             {
                 StartCoroutine(
                     GameOverWithAnItsyBitsyTeenyWeenyNoImmediateDeathMachiney(GameOverReason.TargetPathBlocked));
+                return false;
             }
         }
         
@@ -104,7 +105,10 @@ public class GameController : MonoBehaviour
         {
             StartCoroutine(
                 GameOverWithAnItsyBitsyTeenyWeenyNoImmediateDeathMachiney(GameOverReason.BeePathBlocked));
+            return false;
         }
+
+        return true;
     }
 
     private IEnumerator LevelFinishedCoroutine()
@@ -237,8 +241,25 @@ public class GameController : MonoBehaviour
         bee.SetStartTile(tile);
     }
 
-    public void TilePlaced(Honeycomb tile)
+    public void TilePlaced(Honeycomb tile, bool corrupted)
     {
+        var optionLeft = CheckNoOptionLeft();
+
+        if (!optionLeft)
+        {
+            return;
+        }
+        
+        // Move Milfs
+        MilfController.Instance.MoveMilfs(bee.currentTile);
+        
+        if (corrupted)
+        {
+            //Bee shouldnt move to newly placed corrupted tiles
+            return;
+        }
+        MilfController.Instance.IncreaseMilfCounter();
+        
         var path = PathfinderBeemaker.FindPath(bee.currentTile, TileController.Instance.GetFinishHoneycomb());
         if (path.Count == 0)
         {
@@ -246,11 +267,11 @@ public class GameController : MonoBehaviour
             path = PathfinderBeemaker.FindPath(bee.currentTile, tile);
         }
 
-        // No path to target found. Be will not move. Check losing condition
-        if (path.Count == 0)
-        {
-            CheckNoOptionLeft();
-        }
+//        // No path to target found. Be will not move. Check losing condition
+//        if (path.Count == 0)
+//        {
+//            CheckNoOptionLeft();
+//        }
         
         bee.Navigate(path);
     }

@@ -109,9 +109,8 @@ public class TileController : MonoBehaviour
                         selectedHoneycomb.InitWalls(GetRandomEdgeDefinition());
                         selectedHoneycomb.Deselect();
                         selectedHoneycomb = null;
-
-                        GameController.Instance.TilePlaced(hc);
-                        MilfController.Instance.IncreaseMilfCounter();
+                        
+                        GameController.Instance.TilePlaced(hc, false);
                         ScoreController.Instance.IncrementTilesUsed();
                     }
                 }
