@@ -294,15 +294,18 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void CheckMilfedBee()
+    public bool CheckMilfedBee()
     {
         var milfed = bee.currentTile != null &&
                      MilfController.Instance.spawnedMilfs.Any(m => m.currentTile == bee.currentTile);
 
         if (milfed)
         {
-            GameOver(GameOverReason.Milfed);
+            bee.moving = false;
+            StartCoroutine(GameOverWithAnItsyBitsyTeenyWeenyNoImmediateDeathMachiney(GameOverReason.Milfed));
+            return true;
         }
+        return false;
     }
 
     /* ======================================================================================================================== */

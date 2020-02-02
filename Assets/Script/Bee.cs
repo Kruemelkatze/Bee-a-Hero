@@ -12,7 +12,7 @@ public class Bee : MonoBehaviour
     public Honeycomb currentTile; // Where Bee is standing
     public Honeycomb targetTile; // Where Bee should go
 
-    [SerializeField] bool moving = false;
+    public bool moving = false;
     [SerializeField] Coroutine activeNavigation;
     [SerializeField] private int minPathLengthForSound = 3;
     
@@ -50,8 +50,11 @@ public class Bee : MonoBehaviour
 
     public void Navigate(List<Honeycomb> path)
     {
-        if (path.Count == 0) 
+        if (path.Count == 0)
+        {
+            GameController.Instance.CheckMilfedBee();
             return;
+        }
 
         if (activeNavigation != null)
         {
@@ -70,21 +73,29 @@ public class Bee : MonoBehaviour
         {
             AudioController.Instance.PlaySound("BeeLoopSound");
         }
+        var startIndex = path.First() == originTile ? 1 : 0;
+        currentTile = path[startIndex];
 
         beeGfx.DOLocalMoveY(graphicsYOffset + hoverOffset, hoverTime);
         shadowGfx.DOScale(Vector3.one * shadowHoverScale, hoverTime);
         AudioController.Instance.TransitionToSnapshot("BeeSnapshot", hoverTime);
-        yield return new WaitForSeconds(hoverTime);
-        
-        var startIndex = path.First() == originTile ? 1 : 0;
 
+        yield return new WaitForSeconds(hoverTime);
         for (int i = startIndex; i < path.Count; i++)
         {
+            if (!moving) // moving set to false if milfed by check in milf code
+            {
+                break;
+            }
             var current = path[i];
             currentTile = current;
-            GameController.Instance.CheckMilfedBee();
+            var milfed = GameController.Instance.CheckMilfedBee();
             transform.DOLocalMove(current.transform.position - levitatingObjects.position, 1f / movementSpeed);
             yield return new WaitForSeconds(1f / movementSpeed);
+            if (milfed || !moving) // moving set to false if milfed by check in milf code
+            {
+                break;
+            }
         }
         
         beeGfx.DOLocalMoveY(graphicsYOffset, hoverTime);

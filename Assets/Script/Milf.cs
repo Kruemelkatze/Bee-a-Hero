@@ -33,7 +33,10 @@ public class Milf : MonoBehaviour
             StopCoroutine(activeNavigation);
         }
 
-        targetTile = path.First(x => x != currentTile);
+        targetTile = path.FirstOrDefault(x => x != currentTile);
+        if (targetTile == null) 
+            return;
+        
         var singlePath = new List<Honeycomb>(1);
         singlePath.Add(targetTile);
         
@@ -49,10 +52,10 @@ public class Milf : MonoBehaviour
         for (int i = startIndex; i < path.Count; i++)
         {
             var current = path[i];
-            currentTile = current;
-            GameController.Instance.CheckMilfedBee();
             transform.DOLocalMove(current.transform.position - levitatingObjects.position, 1f / movementSpeed);
             yield return new WaitForSeconds(1f / movementSpeed);
+            currentTile = current;
+            GameController.Instance.CheckMilfedBee();
         }
         
         originTile = targetTile;
