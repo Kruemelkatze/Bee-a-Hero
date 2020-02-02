@@ -116,7 +116,7 @@ public class GameController : MonoBehaviour
 
         rocket.GetComponent<SpriteRenderer>().sortingOrder = 100;
         rocket.DOLocalMoveY(20f, 5f);
-        rocket.DOScale(3f, 5f);
+        rocket.DOScale(5f, 5f);
 
         Transform oldLevel = tileController.GetLevel();
         Transform newLevel = Instantiate(levelPrefab, Vector3.up * 10u, Quaternion.identity, levitatingObjects);

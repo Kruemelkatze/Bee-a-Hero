@@ -29,9 +29,10 @@ public class TileController : MonoBehaviour
     [SerializeField] private Transform honeycombContainer;
     [SerializeField] private Transform availableHoneycombContainer;
     [SerializeField] private Transform level;
+    [SerializeField] private Transform placementEffectPrefab;
     
     [SerializeField] private int creationCounter = 0;
-    
+
     private Honeycomb selectedHoneycomb;
     private Honeycomb startHoneycomb;
     private Honeycomb finishHoneycomb;
@@ -114,6 +115,9 @@ public class TileController : MonoBehaviour
                         newHoneycomb.name = "HoneyComb " + hc.number;
                         hc.SetWalls(selectedHoneycomb);
                         hc.SetOutsideBounds(backgroundTileMap, position);
+                        
+                        Instantiate(placementEffectPrefab, playAreaTileMap.CellToWorld(position) - Vector3.up * 0.17f,
+                            Quaternion.identity, honeycombContainer);
 
                         var honeyCombs = honeycombContainer.GetComponentsInChildren<Honeycomb>();
                         foreach (Honeycomb item in honeyCombs)
@@ -286,6 +290,7 @@ public class TileController : MonoBehaviour
         finishHoneycomb.SetFinishWalls();
         finishHoneycomb.SetDoors();
         finishHoneycomb.UpdateWalls();
+        finishGO.transform.Find("Honeycomb").GetComponent<SpriteRenderer>().sortingOrder = 10;
     }
     
     public void SetLevel(Transform newLevel)

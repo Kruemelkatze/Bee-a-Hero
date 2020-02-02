@@ -1563,6 +1563,8 @@ MonoBehaviour:
   honeycombContainer: {fileID: 1335258346}
   availableHoneycombContainer: {fileID: 1531364669}
   level: {fileID: 312449042}
+  placementEffectPrefab: {fileID: 7157744303563166996, guid: a8bd9b95515de3845b15ed8f854c574c,
+    type: 3}
   creationCounter: 0
   p0: 0
   p1: 0.15
