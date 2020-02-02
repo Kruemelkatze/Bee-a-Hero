@@ -15,7 +15,7 @@ public class Bee : MonoBehaviour
     [SerializeField] bool moving = false;
     [SerializeField] Coroutine activeNavigation;
     [SerializeField] private int minPathLengthForSound = 3;
-
+    
     [Header("Animaton")]
     [SerializeField] private float graphicsYOffset;
     [SerializeField] private Transform beeGfx;
@@ -24,12 +24,15 @@ public class Bee : MonoBehaviour
     [SerializeField] private float hoverOffset;
     [SerializeField] private float hoverTime;
     [SerializeField] private float movementSpeed;
-        
+
+    private Transform levitatingObjects;
+    
     // Start is called before the first frame update
     void Start()
     {
         beeGfx.localPosition = Vector3.up * graphicsYOffset;
         shadowGfx.localPosition = Vector3.up * graphicsYOffset;
+        levitatingObjects = transform.parent.parent;
     }
 
     // Update is called once per frame
@@ -79,8 +82,8 @@ public class Bee : MonoBehaviour
         {
             var current = path[i];
             currentTile = current;
-            transform.DOLocalMove(current.transform.position, 1 / movementSpeed);
-            yield return new WaitForSeconds(1 / movementSpeed);
+            transform.DOLocalMove(current.transform.position - levitatingObjects.position, 1f / movementSpeed);
+            yield return new WaitForSeconds(1f / movementSpeed);
         }
         
         beeGfx.DOLocalMoveY(graphicsYOffset, hoverTime);
