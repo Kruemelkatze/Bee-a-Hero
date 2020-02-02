@@ -111,6 +111,7 @@ public class TileController : MonoBehaviour
                         selectedHoneycomb = null;
 
                         GameController.Instance.TilePlaced(hc);
+                        MilfController.Instance.IncreaseMilfCounter();
                     }
                 }
             }
@@ -228,11 +229,11 @@ public class TileController : MonoBehaviour
 
     private void PrintTiles()
     {
-        foreach (var pos in backgroundTileMap.cellBounds.allPositionsWithin)
+        foreach (var pos in tileSelectionTileMap.cellBounds.allPositionsWithin)
         {   
             Vector3Int localPlace = new Vector3Int(pos.x, pos.y, pos.z);
-            Vector3 place = backgroundTileMap.CellToWorld(localPlace);
-            if (backgroundTileMap.HasTile(localPlace))
+            Vector3 place = tileSelectionTileMap.CellToWorld(localPlace);
+            if (tileSelectionTileMap.HasTile(localPlace))
             {
 #if UNITY_EDITOR
                 Handles.Label(place + new Vector3(-0.3f,0.125f,0), $"{localPlace}"); // TODO: Remove for Production

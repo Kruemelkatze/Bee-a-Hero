@@ -126,6 +126,9 @@ public class GameController : MonoBehaviour
         tileController.SetLevel(newLevel);
         tileController.Setup();
         
+        MilfController.Instance.SetLevel(newLevel);
+        MilfController.Instance.Setup();
+        
         oldLevel.DOMoveY(-10f, transitionTime);
         newLevel.DOMoveY(0f, transitionTime);
 

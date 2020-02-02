@@ -9,9 +9,13 @@ public class MilfController : MonoBehaviour
     public static MilfController Instance;
     [SerializeField] private Transform milfContainer;
     public GameObject milfPrefab;
+    public GameObject milfIndicator;
 
     public List<Milf> spawnedMilfs = new List<Milf>();
     public List<Honeycomb> freeCorrupted = new List<Honeycomb>();
+    
+    [SerializeField] private int milfCounter = 0;
+
     
     private void Awake()
     {
@@ -27,7 +31,23 @@ public class MilfController : MonoBehaviour
     
     void Start()
     {
+        Setup();
+    }
+
+    public void Setup()
+    {
+        spawnedMilfs.Clear();
+        freeCorrupted.Clear();
         
+        milfCounter = 0;
+        UpdateMilfIndicator();
+        PrepareMilfPlacement();
+    }
+
+    public void SetLevel(Transform newLevel)
+    {
+        milfContainer = newLevel.Find("MilfContainer");
+        milfIndicator = newLevel.Find("MilfIndicator").gameObject;
     }
 
     public Honeycomb PrepareMilfPlacement()
@@ -73,6 +93,31 @@ public class MilfController : MonoBehaviour
         freeCorrupted.Add(n);
         return n;
     }
+
+    public int IncreaseMilfCounter()
+    {
+        milfCounter = (milfCounter + 1) % 7;
+        UpdateMilfIndicator();
+
+        if (milfCounter == 6)
+        {
+            PlaceMilf();
+        } else if (milfCounter == 0)
+        {
+            PrepareMilfPlacement();
+        }
+
+        return milfCounter;
+    }
+
+    private void UpdateMilfIndicator()
+    {
+        var walls = milfIndicator.transform.Find("Walls");
+        for (int i = 0; i < walls.childCount; i++)
+        {
+            walls.GetChild(i).gameObject.SetActive(milfCounter > i);
+        }
+    }
     
     [CustomEditor(typeof(MilfController))]
     public class MilfControllerEditor : Editor
@@ -84,6 +129,11 @@ public class MilfController : MonoBehaviour
         {
             var milfController = target as MilfController;
             DrawDefaultInspector();
+            
+            if (GUILayout.Button("MilfCounter ++"))
+            {
+                milfController.IncreaseMilfCounter();
+            }
             
             if (GUILayout.Button("Preview Milf"))
             {
