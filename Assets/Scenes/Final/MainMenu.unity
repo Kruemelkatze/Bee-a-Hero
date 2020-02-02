@@ -5734,12 +5734,12 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Tigthen your exoskeleton!    Sharpen your sting!
+  m_text: 'Tighten your exoskeleton!    Sharpen your sting!
 
     You are going on
-    an intergalactic journey thorugh <b>otter </b>space.
+    an intergalactic journey through <b>otter </b>space.
 
-    Why?    ....    Bee-cause
+    Why?    ....    Bee-cause.
 
     Now
     go for it, you son of a bee!'
@@ -5812,7 +5812,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1995742973}
-    characterCount: 170
+    characterCount: 171
     spriteCount: 0
     spaceCount: 36
     wordCount: 27
