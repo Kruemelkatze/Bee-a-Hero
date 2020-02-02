@@ -215,6 +215,7 @@ public class GameController : MonoBehaviour
         
         IsGameOver = true; 
         gameOverOverlay.SetActive(true);
+        ScoreController.Instance.UpdateGameOverPanel();
     }
 
     public void LevelFinished()
@@ -225,6 +226,7 @@ public class GameController : MonoBehaviour
         }
         
         IsFinished = true;
+        ScoreController.Instance.IncrementLevelsFinished();
         StartCoroutine(LevelFinishedCoroutine());
     }
 

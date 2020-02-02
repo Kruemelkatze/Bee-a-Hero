@@ -111,7 +111,7 @@ public class Bee : MonoBehaviour
         GameController.Instance.BeeFinishedNavigating(originTile);
     }
     
-    
+#if UNITY_EDITOR    
     [CustomEditor(typeof(Bee))]
     public class BeeEditor : Editor
     {
@@ -133,4 +133,5 @@ public class Bee : MonoBehaviour
             }
         }
     }
+#endif    
 }
