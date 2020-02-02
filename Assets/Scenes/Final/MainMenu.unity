@@ -2532,6 +2532,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   settingsPanel: {fileID: 438425920}
+  exitButton: {fileID: 1320858817}
 --- !u!1 &2039207740
 GameObject:
   m_ObjectHideFlags: 0

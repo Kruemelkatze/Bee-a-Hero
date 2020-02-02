@@ -10,7 +10,8 @@ public class MainMenu : MonoBehaviour
     /* ======================================================================================================================== */
 
     [SerializeField] private GameObject settingsPanel;
-        
+    [SerializeField] private GameObject exitButton;
+    
     /* ======================================================================================================================== */
     /* UNITY CALLBACKS                                                                                                          */
     /* ======================================================================================================================== */
@@ -23,6 +24,12 @@ public class MainMenu : MonoBehaviour
         AudioController.Instance.TransitionToSnapshot("MenuSnapshot", 0.5f);
         AudioController.Instance.StopMusic("GamePlayMusic", 1f);
         AudioController.Instance.StopMusic("MilfMusic", 1f);
+        
+#if UNITY_WEBGL
+        exitButton.SetActive(false);
+#else
+        exitButton.SetActive(true);        
+#endif
     }
 
     private void Update()
