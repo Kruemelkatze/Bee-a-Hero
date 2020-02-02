@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private Dialogue[] dialogues;
     [SerializeField] private Bee bee;
     [SerializeField] private Transform rocket;
+    [SerializeField] private Transform[] buttons;
         
     public bool IsPaused { get; private set; }
     public bool IsRunning { get; private set; }
@@ -153,12 +154,28 @@ public class GameController : MonoBehaviour
     {
         IsPaused = true;
         pauseOverlay.SetActive(true);
+
+        foreach (Transform item in buttons)
+        {
+            item.localPosition = Vector3.zero;
+        }
+
+        Time.timeScale = 0f;
+        AudioController.Instance.PauseAllSounds();
     }
 
     public void ContinueGame()
     {
         IsPaused = false;
         pauseOverlay.SetActive(false);
+        
+        foreach (Transform item in buttons)
+        {
+            item.localPosition = Vector3.zero;
+        }
+        
+        Time.timeScale = 1f;
+        AudioController.Instance.ContinueAllSounds();
     }
 
     public Dialogue GetNextDialogue()
